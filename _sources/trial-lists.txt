@@ -1,0 +1,19 @@
+Making Trial Lists
+==================
+
+.. currentmodule:: resources
+
+.. autofunction:: counterbalance
+
+.. autofunction:: expand
+
+.. autofunction:: extend
+
+.. autofunction:: add_block
+
+.. autofunction:: smart_shuffle
+
+.. autofunction:: simple_shuffle
+
+.. autoclass:: StimGenerator
+    :members:
