@@ -51,15 +51,41 @@
 <h1>Making Trial Lists<a class="headerlink" href="#making-trial-lists" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="resources.counterbalance">
-<tt class="descclassname">resources.</tt><tt class="descname">counterbalance</tt><big>(</big><em>conditions</em><big>)</big><a class="headerlink" href="#resources.counterbalance" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates all possible independent variable combinations.</p>
-<p>Used primarily for full counterbalancing of within-subject variables; e.g.
-{&#8216;condition&#8217;:[1,2,3], &#8216;response&#8217;:[&#8216;right&#8217;,&#8217;left&#8217;]}. Each row of the 
-resulting pandas.DataFrame contains a unique combination of conditions.</p>
-<blockquote>
-<div>returns pandas.DataFrame</div></blockquote>
+<tt class="descclassname">resources.</tt><tt class="descname">counterbalance</tt><big>(</big><em>conditions</em>, <em>order=None</em><big>)</big><a class="headerlink" href="#resources.counterbalance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate all possible independent variable combinations in a DataFrame.</p>
+<p>Each row of the resulting DataFrame contains a unique combination of 
+conditions. Used primarily for full counterbalancing of within-subject 
+variables.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>conditions</strong> &#8211; dict of variable name keys to possible values</li>
+<li><strong>order</strong> &#8211; optional, list of ordered columns in result</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">pandas.DataFrame of possible variables</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
+<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [4]: </span><span class="n">my_variables</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;version&#39;</span><span class="p">:[</span><span class="s">&#39;a&#39;</span><span class="p">,</span><span class="s">&#39;b&#39;</span><span class="p">,</span><span class="s">&#39;c&#39;</span><span class="p">],</span> <span class="s">&#39;response&#39;</span><span class="p">:[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="s">&#39;session&#39;</span><span class="p">:[</span><span class="mi">1</span><span class="p">,]}</span>
+
+<span class="gp">In [5]: </span><span class="n">counterbalance</span><span class="p">(</span><span class="n">my_variables</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;version&#39;</span><span class="p">,</span><span class="s">&#39;session&#39;</span><span class="p">,</span><span class="s">&#39;response&#39;</span><span class="p">])</span>
+<span class="go">Out[5]:</span>
+<span class="go">  version  session  response</span>
+<span class="go">0       a        1         1</span>
+<span class="go">1       a        1         2</span>
+<span class="go">2       b        1         1</span>
+<span class="go">3       b        1         2</span>
+<span class="go">4       c        1         1</span>
+<span class="go">5       c        1         2</span>
+</pre></div>
+</div>
 <dl class="function">
 <dt id="resources.expand">
 <tt class="descclassname">resources.</tt><tt class="descname">expand</tt><big>(</big><em>valid</em>, <em>ids</em>, <em>ratio=0.5</em>, <em>force=False</em>, <em>seed=None</em><big>)</big><a class="headerlink" href="#resources.expand" title="Permalink to this definition">¶</a></dt>
