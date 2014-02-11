@@ -1,28 +1,30 @@
 #!/usr/bin/env python
-# encoding: utf-8
 """
-generateTrialsFunctions.py
-
-Created by Pierce Edmiston on 2013-09-07.
+trials_functions.py
 """
 import pandas as pd
 import numpy as np
+import itertools as itls
 
-def counterbalance(conditions):
+def counterbalance(conditions, order=None):
     """
-    Generates all possible independent variable combinations.
+    Generate all possible independent variable combinations in a DataFrame.
     
-    Used primarily for full counterbalancing of within-subject variables; e.g.
-    {'condition':[1,2,3], 'response':['right','left']}. Each row of the 
-    resulting pandas.DataFrame contains a unique combination of conditions.
+    Each row of the resulting DataFrame contains a unique combination of 
+    conditions. Used primarily for full counterbalancing of within-subject 
+    variables.
     
-        conditions --> dict of conditions
-        ------------------------
-        returns pandas.DataFrame
+    :param conditions: dict of variable name keys to possible values
+    :param order: optional, list of ordered columns in result
+    :return: pandas.DataFrame of possible variables
     """
-    import itertools as itls
-    trials = list(itls.product(*conditions.values()))
-    return pd.DataFrame(trials, columns=conditions.keys())
+    combinations = list(itls.product(*conditions.values()))
+    frame = pd.DataFrame(combinations, columns=conditions.keys())
+    
+    if order is None:
+        order = frame.columns
+    
+    return frame[order]
     
 def expand(valid, ids, ratio=0.5, force=False, seed=None):
     """

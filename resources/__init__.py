@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 """
-__init__.py
-
-Created by Pierce Edmiston on 2013-11-15.
+.. module:: resources
+    :synopsis: Helper functions for behavioral research
+.. moduleauthor:: Pierce Edmiston <pierce.edmiston@gmail.com>
 """
+
 from trials_functions import *
