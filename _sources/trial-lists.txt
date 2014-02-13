@@ -3,6 +3,9 @@ Making Trial Lists
 
 .. currentmodule:: resources
 
+counterbalance
+^^^^^^^^^^^^^^
+
 .. autofunction:: counterbalance
 
 .. sourcecode:: ipython
@@ -19,7 +22,58 @@ Making Trial Lists
     4       c        1         1
     5       c        1         2
 
+expand
+^^^^^^
+
 .. autofunction:: expand
+
+.. sourcecode:: ipython
+
+    In [12]: posner = pd.DataFrame({'target_dir':['left','right']})
+
+    In [13]: posner
+    Out[13]: 
+      target_dir
+    0       left
+    1      right
+
+    In [14]: posner = expand(posner, 'valid_prime', ratio=0.75, force=True)
+
+    In [15]: posner
+    Out[15]: 
+       valid_prime target_dir
+    0            1       left
+    1            1      right
+    2            1       left
+    3            1      right
+    4            1       left
+    5            1      right
+    6            0       left
+    7            0      right
+
+    In [16]: posner = expand(posner, 'is_prime', values=['prime','neutral'], ratio=0.5)
+
+    In [17]: posner['valid_prime'][posner['is_prime'] == 'neutral'] = np.nan
+
+    In [18]: posner
+    Out[18]: 
+       is_prime  valid_prime target_dir
+    0     prime            1       left
+    1     prime            1      right
+    2     prime            1       left
+    3     prime            1      right
+    4     prime            1       left
+    5     prime            1      right
+    6     prime            0       left
+    7     prime            0      right
+    8   neutral          NaN       left
+    9   neutral          NaN      right
+    10  neutral          NaN       left
+    11  neutral          NaN      right
+    12  neutral          NaN       left
+    13  neutral          NaN      right
+    14  neutral          NaN       left
+    15  neutral          NaN      right
 
 .. autofunction:: extend
 
