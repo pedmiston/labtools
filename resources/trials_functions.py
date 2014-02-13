@@ -26,36 +26,37 @@ def counterbalance(conditions, order=None):
     
     return frame[order]
     
-def expand(valid, ids, ratio=0.5, force=False, seed=None):
+def expand(valid, name, values=[1.,0.], ratio=0.5, force=True, seed=None):
     """
-    Duplicates invalid trials as necessary to satisfy the valid:invalid ratio.
+    Copy rows as necessary to satisfy the valid:invalid ratio.
         
     Used when complete counterbalancing is not plausible. For example, when the 
     ratio of trials requiring response A to those requiring response B is not
     50:50.
     
-        valid --> pandas.DataFrame; valid trials not altered by method
-        ids --> list of length 2; names for the ID columns.
-        ratio --> 0.5 <= float < 1.0; % of valid trials in the resulting frame
-        force --> bool; forces the ratio value
-        seed --> int seed; for random sampling of invalid trials
-        ------------------------
-        returns pandas.DataFrame
+    :param valid: pandas.DataFrame of valid trials; not altered by method
+    :param name: name of new column
+    :param values: list of length 2 specifying values for valid and invalid trials
+    :param ratio: 0.0 < float < 1.0; approximate % of valid trials in the resulting frame
+    :param force: default True, should the ratio be exactly satisfied?
+    :param seed: int seed for random sampling of invalid trials if force is False
+    :return: pandas.DataFrame of valid and invalid trials
     """
     prng = np.random.RandomState(seed)
     
-    num_invalid = (len(valid)*(1.0-ratio))/ratio # invalid trials
     if force:
         invalid = valid[:]
         num_valid = (len(invalid)*ratio)/(1.0-ratio)
         copies = int(num_valid/len(valid))
         valid = pd.concat([valid]*copies, ignore_index=True)
     else:
-        num_invalid = int(num_invalid)
+        num_invalid = int((len(valid)*(1.0-ratio))/ratio)
         sampled = prng.choice(valid.index, num_invalid, replace=False)
-        sampled.sort()
         invalid = valid.reindex(sampled).reset_index(drop=True)
-    return pd.concat([valid, invalid], keys=[1,0], names=ids).reset_index()
+    
+    frame = pd.concat([valid, invalid], keys=values, names=[name,'DEFAULT'])
+    frame = frame.reset_index().drop('DEFAULT', axis=1)
+    return frame
     
 def extend(frame, max_length, ids=['trialIter','trialID']):
     """
