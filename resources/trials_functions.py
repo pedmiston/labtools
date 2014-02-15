@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-trials_functions.py
+resources.trials_functions
 """
 import pandas as pd
 import numpy as np
@@ -8,16 +8,24 @@ import itertools as itls
 
 def counterbalance(conditions, order=None):
     """
-    Generate all possible independent variable combinations in a DataFrame.
+    Generate all independent variable combinations in a DataFrame.
     
     Each row of the resulting DataFrame contains a unique combination of 
-    conditions. Used primarily for full counterbalancing of within-subject 
+    conditions. Use primarily for full counterbalancing of within-subject 
     variables.
     
-    :param conditions: dict of variable name keys to possible values
-    :param order: optional, list of ordered columns in result
-    :return: pandas.DataFrame of possible variables
+    :param conditions: dict
+        Variable names and possible values.
+    :param order: list, optional
+        Order of columns in output.
+    :return: pandas.DataFrame
+        Each row is a unique combination of variables, assuming the possible
+        values for each variable are unique.
     """
+    for k,v in conditions.items():
+        if not hasattr(v, '__iter__'):
+            conditions[k] = [v]
+    
     combinations = list(itls.product(*conditions.values()))
     frame = pd.DataFrame(combinations, columns=conditions.keys())
     
@@ -26,31 +34,40 @@ def counterbalance(conditions, order=None):
     
     return frame[order]
     
-def expand(valid, name, values=[1.,0.], ratio=0.5, force=True, seed=None):
+def expand(valid, name, values=[1.,0.], ratio=0.5, sample=False, seed=None):
     """
     Copy rows as necessary to satisfy the valid:invalid ratio.
         
-    Used when complete counterbalancing is not plausible. For example, when the 
+    Use when complete counterbalancing is not plausible. For example, when the 
     ratio of trials requiring response A to those requiring response B is not
     50:50.
     
-    :param valid: pandas.DataFrame of valid trials; not altered by method
-    :param name: name of new column
-    :param values: list of length 2 specifying values for valid and invalid trials
-    :param ratio: 0.0 < float < 1.0; approximate % of valid trials in the resulting frame
-    :param force: default True, should the ratio be exactly satisfied?
-    :param seed: int seed for random sampling of invalid trials if force is False
-    :return: pandas.DataFrame of valid and invalid trials
+    :param valid: pandas.DataFrame
+        Trials to be expanded.
+    :param name: str
+        Name of new column containing valid and invalid values
+    :param values: list of length 2
+        Values for valid and invalid trials, respectively.
+    :param ratio: 0.0 < float < 1.0
+        Approximate percentage of valid trials in the resulting frame.
+    :param sample: bool, default False
+        Should the invalid trials be sampled from the valid trials? If True, 
+        len(returned) < 2*len(valid)
+    :param seed: float, optional
+        If sample is True, seed for random sampling of invalid trials.
+    :return: pandas.DataFrame
+        Valid and invalid trials are denoted in a new column.
     """
     prng = np.random.RandomState(seed)
+    num_trials = len(valid)
     
-    if force:
+    if not sample:
         invalid = valid[:]
-        num_valid = (len(invalid)*ratio)/(1.0-ratio)
-        copies = int(num_valid/len(valid))
+        num_valid = (num_trials*ratio)/(1.0-ratio)
+        copies = int(num_valid/num_trials)
         valid = pd.concat([valid]*copies, ignore_index=True)
     else:
-        num_invalid = int((len(valid)*(1.0-ratio))/ratio)
+        num_invalid = int((num_trials*(1.0-ratio))/ratio)
         sampled = prng.choice(valid.index, num_invalid, replace=False)
         invalid = valid.reindex(sampled).reset_index(drop=True)
     
