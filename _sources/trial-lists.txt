@@ -37,7 +37,7 @@ expand
     0       left
     1      right
 
-    In [14]: posner = expand(posner, 'valid_prime', ratio=0.75, force=True)
+    In [14]: posner = expand(posner, 'valid_prime', ratio=0.75)
 
     In [15]: posner
     Out[15]: 

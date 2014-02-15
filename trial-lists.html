@@ -54,21 +54,25 @@
 <dl class="function">
 <dt id="resources.counterbalance">
 <tt class="descclassname">resources.</tt><tt class="descname">counterbalance</tt><big>(</big><em>conditions</em>, <em>order=None</em><big>)</big><a class="headerlink" href="#resources.counterbalance" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generate all possible independent variable combinations in a DataFrame.</p>
+<dd><p>Generate all independent variable combinations in a DataFrame.</p>
 <p>Each row of the resulting DataFrame contains a unique combination of 
-conditions. Used primarily for full counterbalancing of within-subject 
+conditions. Use primarily for full counterbalancing of within-subject 
 variables.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>conditions</strong> &#8211; dict of variable name keys to possible values</li>
-<li><strong>order</strong> &#8211; optional, list of ordered columns in result</li>
+<li><strong>conditions</strong> &#8211; dict
+Variable names and possible values.</li>
+<li><strong>order</strong> &#8211; list, optional
+Order of columns in output.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">pandas.DataFrame of possible variables</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">pandas.DataFrame
+Each row is a unique combination of variables, assuming the possible
+values for each variable are unique.</p>
 </td>
 </tr>
 </tbody>
@@ -93,9 +97,9 @@ variables.</p>
 <h2>expand<a class="headerlink" href="#expand" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="resources.expand">
-<tt class="descclassname">resources.</tt><tt class="descname">expand</tt><big>(</big><em>valid, name, values=[1.0, 0.0], ratio=0.5, force=True, seed=None</em><big>)</big><a class="headerlink" href="#resources.expand" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">resources.</tt><tt class="descname">expand</tt><big>(</big><em>valid, name, values=[1.0, 0.0], ratio=0.5, sample=False, seed=None</em><big>)</big><a class="headerlink" href="#resources.expand" title="Permalink to this definition">¶</a></dt>
 <dd><p>Copy rows as necessary to satisfy the valid:invalid ratio.</p>
-<p>Used when complete counterbalancing is not plausible. For example, when the 
+<p>Use when complete counterbalancing is not plausible. For example, when the 
 ratio of trials requiring response A to those requiring response B is not
 50:50.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -103,16 +107,24 @@ ratio of trials requiring response A to those requiring response B is not
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>valid</strong> &#8211; pandas.DataFrame of valid trials; not altered by method</li>
-<li><strong>name</strong> &#8211; name of new column</li>
-<li><strong>values</strong> &#8211; list of length 2 specifying values for valid and invalid trials</li>
-<li><strong>ratio</strong> &#8211; 0.0 &lt; float &lt; 1.0; approximate % of valid trials in the resulting frame</li>
-<li><strong>force</strong> &#8211; default True, should the ratio be exactly satisfied?</li>
-<li><strong>seed</strong> &#8211; int seed for random sampling of invalid trials if force is False</li>
+<li><strong>valid</strong> &#8211; pandas.DataFrame
+Trials to be expanded.</li>
+<li><strong>name</strong> &#8211; str
+Name of new column containing valid and invalid values</li>
+<li><strong>values</strong> &#8211; list of length 2
+Values for valid and invalid trials, respectively.</li>
+<li><strong>ratio</strong> &#8211; 0.0 &lt; float &lt; 1.0
+Approximate percentage of valid trials in the resulting frame.</li>
+<li><strong>sample</strong> &#8211; bool, default False
+Should the invalid trials be sampled from the valid trials? If True, 
+len(returned) &lt; 2*len(valid)</li>
+<li><strong>seed</strong> &#8211; float, optional
+If sample is True, seed for random sampling of invalid trials.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">pandas.DataFrame of valid and invalid trials</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">pandas.DataFrame
+Valid and invalid trials are denoted in a new column.</p>
 </td>
 </tr>
 </tbody>
@@ -127,7 +139,7 @@ ratio of trials requiring response A to those requiring response B is not
 <span class="go">0       left</span>
 <span class="go">1      right</span>
 
-<span class="gp">In [14]: </span><span class="n">posner</span> <span class="o">=</span> <span class="n">expand</span><span class="p">(</span><span class="n">posner</span><span class="p">,</span> <span class="s">&#39;valid_prime&#39;</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="gp">In [14]: </span><span class="n">posner</span> <span class="o">=</span> <span class="n">expand</span><span class="p">(</span><span class="n">posner</span><span class="p">,</span> <span class="s">&#39;valid_prime&#39;</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="mf">0.75</span><span class="p">)</span>
 
 <span class="gp">In [15]: </span><span class="n">posner</span>
 <span class="go">Out[15]:</span>
