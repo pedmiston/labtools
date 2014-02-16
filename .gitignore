@@ -3,3 +3,7 @@
 
 # python files
 *.pyc
+
+# ipython notebook files
+.ipynb_checkpoints/*
+*notebook_files/*
