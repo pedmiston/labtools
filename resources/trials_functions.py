@@ -16,13 +16,10 @@ def counterbalance(conditions, order=None):
     conditions. Use primarily for full counterbalancing of within-subject 
     variables.
     
-    |  :param conditions: dict
-    |      Variable names and possible values.
-    |  :param order: list, optional
-    |      Order of columns in output.
-    |  :return: pandas.DataFrame
-    |      Each row is a unique combination of variables, assuming the possible
-    |      values for each variable are unique.
+    :param conditions: dict. Variable names and possible values.
+    :param order: list, optional. Order of columns in output.
+    :return: pandas.DataFrame. Each row is a unique combination of variables, 
+             assuming the possible values for each variable are unique.
     """
     for k,v in conditions.items():
         if not hasattr(v, '__iter__'):
@@ -44,21 +41,18 @@ def expand(valid, name, values=[1.,0.], ratio=0.5, sample=False, seed=None):
     ratio of trials requiring response A to those requiring response B is not
     50:50.
     
-    |  :param valid: pandas.DataFrame
-    |      Trials to be expanded.
-    |  :param name: str
-    |      Name of new column containing valid and invalid values
-    |  :param values: list of length 2
-    |      Values for valid and invalid trials, respectively.
-    |  :param ratio: 0.0 < float < 1.0
-    |      Approximate percentage of valid trials in the resulting frame.
-    |  :param sample: bool, default False
-    |      Should the invalid trials be sampled from the valid trials? If True, 
-    |      len(returned) < 2*len(valid)
-    |  :param seed: float, optional
-    |      If sample is True, seed for random sampling of invalid trials.
-    |  :return: pandas.DataFrame
-    |      Valid and invalid trials are denoted in a new column.
+    :param valid: pandas.DataFrame. Trials to be expanded.
+    :param name: str. Name of new column containing valid and invalid values
+    :param values: list of length 2. Values for valid and invalid trials, 
+                   respectively.
+    :param ratio: 0.0 < float < 1.0. Approximate percentage of valid trials in 
+                  the resulting frame.
+    :param sample: bool, default False. Should the invalid trials be sampled 
+        from the valid trials? If True, len(returned) < 2*len(valid).
+    :param seed: float, optional. If sample is True, seed for random sampling 
+                 of invalid trials.
+    :return: pandas.DataFrame. Valid and invalid trials are denoted in a new 
+             column.
     """
     prng = np.random.RandomState(seed)
     num_trials = len(valid)
@@ -81,17 +75,14 @@ def extend(frame, reps=None, max_length=None, rep_ix=None, row_ix=None):
     """
     Duplicates the unique trials for a total length less than the provided max.
     
-    |  :param frame: pandas.DataFrame
-    |      Trials to be extended.
-    |  :param reps: int, optional
-    |      Number of times to copy the frame.
-    |  :param max_length: int, optional
-    |      Alternately, specify a max number of trials.
-    |  :param rep_ix: str, optional
-    |      Column name for the iteration of repetitions.
-    |  :param row_ix: str, optional
-    |      Column name for the the row identification.
-    |  :returns: pandas.DataFrame of duplicated trials
+    :param frame: pandas.DataFrame. Trials to be extended.
+    :param reps: int, optional. Number of times to copy the frame.
+    :param max_length: int, optional. Alternately, specify a max number of 
+                       trials.
+    :param rep_ix: str, optional. Column name for the iteration of repetitions.
+    :param row_ix: str, optional. Column name for the row identification, which
+                   is the original index of frame.
+    :returns: pandas.DataFrame of duplicated trials
     """
     
     reps = reps or max_length/len(frame)
