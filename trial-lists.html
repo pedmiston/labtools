@@ -52,8 +52,8 @@
 <div class="section" id="counterbalance">
 <h2>counterbalance<a class="headerlink" href="#counterbalance" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
-<dt id="resources.counterbalance">
-<tt class="descclassname">resources.</tt><tt class="descname">counterbalance</tt><big>(</big><em>conditions</em>, <em>order=None</em><big>)</big><a class="headerlink" href="#resources.counterbalance" title="Permalink to this definition">¶</a></dt>
+<dt id="resources.trials_functions.counterbalance">
+<tt class="descclassname">resources.trials_functions.</tt><tt class="descname">counterbalance</tt><big>(</big><em>conditions</em>, <em>order=None</em><big>)</big><a class="reference internal" href="_modules/resources/trials_functions.html#counterbalance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resources.trials_functions.counterbalance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate all independent variable combinations in a DataFrame.</p>
 <p>Each row of the resulting DataFrame contains a unique combination of 
 conditions. Use primarily for full counterbalancing of within-subject 
@@ -63,41 +63,78 @@ variables.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>conditions</strong> &#8211; dict
-Variable names and possible values.</li>
-<li><strong>order</strong> &#8211; list, optional
-Order of columns in output.</li>
+<li><strong>conditions</strong> &#8211; dict. Variable names and possible values.</li>
+<li><strong>order</strong> &#8211; list, optional. Order of columns in output.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">pandas.DataFrame
-Each row is a unique combination of variables, assuming the possible
-values for each variable are unique.</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">pandas.DataFrame. Each row is a unique combination of variables, 
+assuming the possible values for each variable are unique.</p>
 </td>
 </tr>
 </tbody>
 </table>
 </dd></dl>
 
-<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [4]: </span><span class="n">my_variables</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;version&#39;</span><span class="p">:[</span><span class="s">&#39;a&#39;</span><span class="p">,</span><span class="s">&#39;b&#39;</span><span class="p">,</span><span class="s">&#39;c&#39;</span><span class="p">],</span> <span class="s">&#39;response&#39;</span><span class="p">:[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="s">&#39;session&#39;</span><span class="p">:[</span><span class="mi">1</span><span class="p">,]}</span>
-
-<span class="gp">In [5]: </span><span class="n">counterbalance</span><span class="p">(</span><span class="n">my_variables</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;version&#39;</span><span class="p">,</span><span class="s">&#39;session&#39;</span><span class="p">,</span><span class="s">&#39;response&#39;</span><span class="p">])</span>
-<span class="go">Out[5]:</span>
-<span class="go">  version  session  response</span>
-<span class="go">0       a        1         1</span>
-<span class="go">1       a        1         2</span>
-<span class="go">2       b        1         1</span>
-<span class="go">3       b        1         2</span>
-<span class="go">4       c        1         1</span>
-<span class="go">5       c        1         2</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">my_variables</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;version&#39;</span><span class="p">:[</span><span class="s">&#39;a&#39;</span><span class="p">,</span><span class="s">&#39;b&#39;</span><span class="p">,</span><span class="s">&#39;c&#39;</span><span class="p">],</span> <span class="s">&#39;response&#39;</span><span class="p">:[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="s">&#39;session&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">}</span>
+<span class="n">counterbalance</span><span class="p">(</span><span class="n">my_variables</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;version&#39;</span><span class="p">,</span><span class="s">&#39;session&#39;</span><span class="p">,</span><span class="s">&#39;response&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
-</div>
+<div style="max-height:1000px;max-width:1500px;overflow:auto;">
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>version</th>
+      <th>session</th>
+      <th>response</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td> a</td>
+      <td> 2</td>
+      <td> 1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td> a</td>
+      <td> 2</td>
+      <td> 2</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td> b</td>
+      <td> 2</td>
+      <td> 1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td> b</td>
+      <td> 2</td>
+      <td> 2</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td> c</td>
+      <td> 2</td>
+      <td> 1</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td> c</td>
+      <td> 2</td>
+      <td> 2</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
 <div class="section" id="expand">
 <h2>expand<a class="headerlink" href="#expand" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
-<dt id="resources.expand">
-<tt class="descclassname">resources.</tt><tt class="descname">expand</tt><big>(</big><em>valid, name, values=[1.0, 0.0], ratio=0.5, sample=False, seed=None</em><big>)</big><a class="headerlink" href="#resources.expand" title="Permalink to this definition">¶</a></dt>
+<dt id="resources.trials_functions.expand">
+<tt class="descclassname">resources.trials_functions.</tt><tt class="descname">expand</tt><big>(</big><em>valid, name, values=[1.0, 0.0], ratio=0.5, sample=False, seed=None</em><big>)</big><a class="reference internal" href="_modules/resources/trials_functions.html#expand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resources.trials_functions.expand" title="Permalink to this definition">¶</a></dt>
 <dd><p>Copy rows as necessary to satisfy the valid:invalid ratio.</p>
 <p>Use when complete counterbalancing is not plausible. For example, when the 
 ratio of trials requiring response A to those requiring response B is not
@@ -107,135 +144,438 @@ ratio of trials requiring response A to those requiring response B is not
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>valid</strong> &#8211; pandas.DataFrame
-Trials to be expanded.</li>
-<li><strong>name</strong> &#8211; str
-Name of new column containing valid and invalid values</li>
-<li><strong>values</strong> &#8211; list of length 2
-Values for valid and invalid trials, respectively.</li>
-<li><strong>ratio</strong> &#8211; 0.0 &lt; float &lt; 1.0
-Approximate percentage of valid trials in the resulting frame.</li>
-<li><strong>sample</strong> &#8211; bool, default False
-Should the invalid trials be sampled from the valid trials? If True, 
-len(returned) &lt; 2*len(valid)</li>
-<li><strong>seed</strong> &#8211; float, optional
-If sample is True, seed for random sampling of invalid trials.</li>
+<li><strong>valid</strong> &#8211; pandas.DataFrame. Trials to be expanded.</li>
+<li><strong>name</strong> &#8211; str. Name of new column containing valid and invalid values</li>
+<li><strong>values</strong> &#8211; list of length 2. Values for valid and invalid trials, 
+respectively.</li>
+<li><strong>ratio</strong> &#8211; 0.0 &lt; float &lt; 1.0. Approximate percentage of valid trials in 
+the resulting frame.</li>
+<li><strong>sample</strong> &#8211; bool, default False. Should the invalid trials be sampled 
+from the valid trials? If True, len(returned) &lt; 2*len(valid).</li>
+<li><strong>seed</strong> &#8211; float, optional. If sample is True, seed for random sampling 
+of invalid trials.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">pandas.DataFrame
-Valid and invalid trials are denoted in a new column.</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">pandas.DataFrame. Valid and invalid trials are denoted in a new 
+column.</p>
 </td>
 </tr>
 </tbody>
 </table>
 </dd></dl>
 
-<div class="highlight-ipython"><div class="highlight"><pre><span class="gp">In [12]: </span><span class="n">posner</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s">&#39;target_dir&#39;</span><span class="p">:[</span><span class="s">&#39;left&#39;</span><span class="p">,</span><span class="s">&#39;right&#39;</span><span class="p">]})</span>
-
-<span class="gp">In [13]: </span><span class="n">posner</span>
-<span class="go">Out[13]:</span>
-<span class="go">  target_dir</span>
-<span class="go">0       left</span>
-<span class="go">1      right</span>
-
-<span class="gp">In [14]: </span><span class="n">posner</span> <span class="o">=</span> <span class="n">expand</span><span class="p">(</span><span class="n">posner</span><span class="p">,</span> <span class="s">&#39;valid_prime&#39;</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="mf">0.75</span><span class="p">)</span>
-
-<span class="gp">In [15]: </span><span class="n">posner</span>
-<span class="go">Out[15]:</span>
-<span class="go">   valid_prime target_dir</span>
-<span class="go">0            1       left</span>
-<span class="go">1            1      right</span>
-<span class="go">2            1       left</span>
-<span class="go">3            1      right</span>
-<span class="go">4            1       left</span>
-<span class="go">5            1      right</span>
-<span class="go">6            0       left</span>
-<span class="go">7            0      right</span>
-
-<span class="gp">In [16]: </span><span class="n">posner</span> <span class="o">=</span> <span class="n">expand</span><span class="p">(</span><span class="n">posner</span><span class="p">,</span> <span class="s">&#39;is_prime&#39;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;prime&#39;</span><span class="p">,</span><span class="s">&#39;neutral&#39;</span><span class="p">],</span> <span class="n">ratio</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-
-<span class="gp">In [17]: </span><span class="n">posner</span><span class="p">[</span><span class="s">&#39;valid_prime&#39;</span><span class="p">][</span><span class="n">posner</span><span class="p">[</span><span class="s">&#39;is_prime&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;neutral&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-
-<span class="gp">In [18]: </span><span class="n">posner</span>
-<span class="go">Out[18]:</span>
-<span class="go">   is_prime  valid_prime target_dir</span>
-<span class="go">0     prime            1       left</span>
-<span class="go">1     prime            1      right</span>
-<span class="go">2     prime            1       left</span>
-<span class="go">3     prime            1      right</span>
-<span class="go">4     prime            1       left</span>
-<span class="go">5     prime            1      right</span>
-<span class="go">6     prime            0       left</span>
-<span class="go">7     prime            0      right</span>
-<span class="go">8   neutral          NaN       left</span>
-<span class="go">9   neutral          NaN      right</span>
-<span class="go">10  neutral          NaN       left</span>
-<span class="go">11  neutral          NaN      right</span>
-<span class="go">12  neutral          NaN       left</span>
-<span class="go">13  neutral          NaN      right</span>
-<span class="go">14  neutral          NaN       left</span>
-<span class="go">15  neutral          NaN      right</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">posner</span> <span class="o">=</span> <span class="n">expand</span><span class="p">(</span><span class="n">posner</span><span class="p">,</span> <span class="s">&#39;valid_prime&#39;</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="mf">0.75</span><span class="p">)</span>
+<span class="n">posner</span>
 </pre></div>
 </div>
-<dl class="function">
-<dt id="resources.extend">
-<tt class="descclassname">resources.</tt><tt class="descname">extend</tt><big>(</big><em>frame, max_length, ids=['trialIter', 'trialID']</em><big>)</big><a class="headerlink" href="#resources.extend" title="Permalink to this definition">¶</a></dt>
+<div style="max-height:1000px;max-width:1500px;overflow:auto;">
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>valid_prime</th>
+      <th>target_dir</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td> 1</td>
+      <td>  left</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td> 1</td>
+      <td> right</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td> 1</td>
+      <td>  left</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td> 1</td>
+      <td> right</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td> 1</td>
+      <td>  left</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td> 1</td>
+      <td> right</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td> 0</td>
+      <td>  left</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td> 0</td>
+      <td> right</td>
+    </tr>
+  </tbody>
+</table>
+</div><div class="code python highlight-python"><div class="highlight"><pre><span class="n">posner</span> <span class="o">=</span> <span class="n">expand</span><span class="p">(</span><span class="n">posner</span><span class="p">,</span> <span class="s">&#39;prime_type&#39;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;present&#39;</span><span class="p">,</span> <span class="s">&#39;neutral&#39;</span><span class="p">],</span> <span class="n">ratio</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">posner</span><span class="p">[</span><span class="s">&#39;valid_prime&#39;</span><span class="p">][</span><span class="n">posner</span><span class="p">[</span><span class="s">&#39;prime_type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;neutral&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+<span class="n">posner</span>
+</pre></div>
+</div>
+<div style="max-height:1000px;max-width:1500px;overflow:auto;">
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>prime_type</th>
+      <th>valid_prime</th>
+      <th>target_dir</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0 </th>
+      <td> present</td>
+      <td>  1</td>
+      <td>  left</td>
+    </tr>
+    <tr>
+      <th>1 </th>
+      <td> present</td>
+      <td>  1</td>
+      <td> right</td>
+    </tr>
+    <tr>
+      <th>2 </th>
+      <td> present</td>
+      <td>  1</td>
+      <td>  left</td>
+    </tr>
+    <tr>
+      <th>3 </th>
+      <td> present</td>
+      <td>  1</td>
+      <td> right</td>
+    </tr>
+    <tr>
+      <th>4 </th>
+      <td> present</td>
+      <td>  1</td>
+      <td>  left</td>
+    </tr>
+    <tr>
+      <th>5 </th>
+      <td> present</td>
+      <td>  1</td>
+      <td> right</td>
+    </tr>
+    <tr>
+      <th>6 </th>
+      <td> present</td>
+      <td>  0</td>
+      <td>  left</td>
+    </tr>
+    <tr>
+      <th>7 </th>
+      <td> present</td>
+      <td>  0</td>
+      <td> right</td>
+    </tr>
+    <tr>
+      <th>8 </th>
+      <td> neutral</td>
+      <td>NaN</td>
+      <td>  left</td>
+    </tr>
+    <tr>
+      <th>9 </th>
+      <td> neutral</td>
+      <td>NaN</td>
+      <td> right</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td> neutral</td>
+      <td>NaN</td>
+      <td>  left</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td> neutral</td>
+      <td>NaN</td>
+      <td> right</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td> neutral</td>
+      <td>NaN</td>
+      <td>  left</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td> neutral</td>
+      <td>NaN</td>
+      <td> right</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td> neutral</td>
+      <td>NaN</td>
+      <td>  left</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td> neutral</td>
+      <td>NaN</td>
+      <td> right</td>
+    </tr>
+  </tbody>
+</table>
+</div><dl class="function">
+<dt id="resources.trials_functions.extend">
+<tt class="descclassname">resources.trials_functions.</tt><tt class="descname">extend</tt><big>(</big><em>frame</em>, <em>reps=None</em>, <em>max_length=None</em>, <em>rep_ix=None</em>, <em>row_ix=None</em><big>)</big><a class="reference internal" href="_modules/resources/trials_functions.html#extend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resources.trials_functions.extend" title="Permalink to this definition">¶</a></dt>
 <dd><p>Duplicates the unique trials for a total length less than the provided max.</p>
-<p>frame &#8211;&gt; pandas.DataFrame of unique trials
-max_length &#8211;&gt; int max trials allowable in the experiment
-ids &#8211;&gt; list of length 2; names for the ID columns
-&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;
-returns pandas.DataFrame</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>frame</strong> &#8211; pandas.DataFrame. Trials to be extended.</li>
+<li><strong>reps</strong> &#8211; int, optional. Number of times to copy the frame.</li>
+<li><strong>max_length</strong> &#8211; int, optional. Alternately, specify a max number of 
+trials.</li>
+<li><strong>rep_ix</strong> &#8211; str, optional. Column name for the iteration of repetitions.</li>
+<li><strong>row_ix</strong> &#8211; str, optional. Column name for the row identification, which
+is the original index of frame.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">pandas.DataFrame of duplicated trials</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
-<dl class="function">
-<dt id="resources.add_block">
-<tt class="descclassname">resources.</tt><tt class="descname">add_block</tt><big>(</big><em>frame</em>, <em>block_size</em>, <em>id_col=None</em>, <em>seed=None</em><big>)</big><a class="headerlink" href="#resources.add_block" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates a new column for block.</p>
-<p>frame &#8211;&gt; pandas.DataFrame of trials
-block_size &#8211;&gt; int number of trials in each block
-id_col &#8211;&gt; str column name; chunk frame by column before assignment
-seed &#8211;&gt; int seed for assignment shuffling
-&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;
-returns pandas.DataFrame</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="resources.smart_shuffle">
-<tt class="descclassname">resources.</tt><tt class="descname">smart_shuffle</tt><big>(</big><em>frame</em>, <em>col</em>, <em>block=None</em>, <em>seed=None</em>, <em>verbose=True</em>, <em>lim=10000</em><big>)</big><a class="headerlink" href="#resources.smart_shuffle" title="Permalink to this definition">¶</a></dt>
-<dd><p>Shuffles trials such that equivalent trials never appear back to back.</p>
-<p>frame &#8211;&gt; pandas.DataFrame of trials
-id_col &#8211;&gt; str column name; column to ensure non-repeating trials
-block &#8211;&gt; str column name; chunk frame by block before shuffling
-seed &#8211;&gt; int seed; for shuffling order
-&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;
-returns pandas.DataFrame</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="resources.simple_shuffle">
-<tt class="descclassname">resources.</tt><tt class="descname">simple_shuffle</tt><big>(</big><em>frame</em>, <em>block=None</em>, <em>times=10</em>, <em>seed=None</em><big>)</big><a class="headerlink" href="#resources.simple_shuffle" title="Permalink to this definition">¶</a></dt>
-<dd><p>Shuffles trials a few times.</p>
-<p>frame &#8211;&gt; pandas.DataFrame of trials
-block &#8211;&gt; str column name; shuffle trials in groups
-times &#8211;&gt; int number of shuffles
-seed &#8211;&gt; int seed; for shuffling order
-&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;
-returns pandas.DataFrame</p>
-</dd></dl>
-
-<dl class="class">
-<dt id="resources.StimGenerator">
-<em class="property">class </em><tt class="descclassname">resources.</tt><tt class="descname">StimGenerator</tt><big>(</big><em>stim_info</em>, <em>valid_col</em>, <em>input_col</em>, <em>output_col=None</em>, <em>seed=None</em><big>)</big><a class="headerlink" href="#resources.StimGenerator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Flexible object to hold multiple generators</p>
-<dl class="method">
-<dt id="resources.StimGenerator.next">
-<tt class="descname">next</tt><big>(</big><em>trial</em><big>)</big><a class="headerlink" href="#resources.StimGenerator.next" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">extend</span><span class="p">(</span><span class="n">posner</span><span class="p">,</span> <span class="n">reps</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div style="max-height:1000px;max-width:1500px;overflow:auto;">
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>prime_type</th>
+      <th>valid_prime</th>
+      <th>target_dir</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0 </th>
+      <td> present</td>
+      <td>  1</td>
+      <td>  left</td>
+    </tr>
+    <tr>
+      <th>1 </th>
+      <td> present</td>
+      <td>  1</td>
+      <td> right</td>
+    </tr>
+    <tr>
+      <th>2 </th>
+      <td> present</td>
+      <td>  1</td>
+      <td>  left</td>
+    </tr>
+    <tr>
+      <th>3 </th>
+      <td> present</td>
+      <td>  1</td>
+      <td> right</td>
+    </tr>
+    <tr>
+      <th>4 </th>
+      <td> present</td>
+      <td>  1</td>
+      <td>  left</td>
+    </tr>
+    <tr>
+      <th>5 </th>
+      <td> present</td>
+      <td>  1</td>
+      <td> right</td>
+    </tr>
+    <tr>
+      <th>6 </th>
+      <td> present</td>
+      <td>  0</td>
+      <td>  left</td>
+    </tr>
+    <tr>
+      <th>7 </th>
+      <td> present</td>
+      <td>  0</td>
+      <td> right</td>
+    </tr>
+    <tr>
+      <th>8 </th>
+      <td> neutral</td>
+      <td>NaN</td>
+      <td>  left</td>
+    </tr>
+    <tr>
+      <th>9 </th>
+      <td> neutral</td>
+      <td>NaN</td>
+      <td> right</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td> neutral</td>
+      <td>NaN</td>
+      <td>  left</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td> neutral</td>
+      <td>NaN</td>
+      <td> right</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td> neutral</td>
+      <td>NaN</td>
+      <td>  left</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td> neutral</td>
+      <td>NaN</td>
+      <td> right</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td> neutral</td>
+      <td>NaN</td>
+      <td>  left</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td> neutral</td>
+      <td>NaN</td>
+      <td> right</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td> present</td>
+      <td>  1</td>
+      <td>  left</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td> present</td>
+      <td>  1</td>
+      <td> right</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td> present</td>
+      <td>  1</td>
+      <td>  left</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td> present</td>
+      <td>  1</td>
+      <td> right</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td> present</td>
+      <td>  1</td>
+      <td>  left</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td> present</td>
+      <td>  1</td>
+      <td> right</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td> present</td>
+      <td>  0</td>
+      <td>  left</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td> present</td>
+      <td>  0</td>
+      <td> right</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td> neutral</td>
+      <td>NaN</td>
+      <td>  left</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td> neutral</td>
+      <td>NaN</td>
+      <td> right</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td> neutral</td>
+      <td>NaN</td>
+      <td>  left</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td> neutral</td>
+      <td>NaN</td>
+      <td> right</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td> neutral</td>
+      <td>NaN</td>
+      <td>  left</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td> neutral</td>
+      <td>NaN</td>
+      <td> right</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td> neutral</td>
+      <td>NaN</td>
+      <td>  left</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td> neutral</td>
+      <td>NaN</td>
+      <td> right</td>
+    </tr>
+  </tbody>
+</table>
+</div><div class="code python highlight-python"><div class="highlight"><pre><span class="n">posner_full</span> <span class="o">=</span> <span class="n">extend</span><span class="p">(</span><span class="n">posner</span><span class="p">,</span> <span class="n">max_length</span> <span class="o">=</span> <span class="mi">390</span><span class="p">,</span> <span class="n">rep_ix</span> <span class="o">=</span> <span class="s">&#39;iteration&#39;</span><span class="p">)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">posner_full</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="mi">384</span>
+</pre></div>
+</div>
 </div>
 </div>
 
