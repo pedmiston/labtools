@@ -104,13 +104,12 @@ def extend(frame, reps=None, max_length=None, rep_ix=None, row_ix=None):
 def add_block(frame, block_size, id_col=None, seed=None):
     """
     Creates a new column for block.
-        
-        frame --> pandas.DataFrame of trials
-        block_size --> int number of trials in each block
-        id_col --> str column name; chunk frame by column before assignment
-        seed --> int seed for assignment shuffling
-        ------------------------
-        returns pandas.DataFrame
+    
+    :param frame: pandas.DataFrame. Trials to be parsed into blocks.
+    :param block_size: int. Size of blocks.
+    :param id_col: str, optional. Column to groupby before blocking.
+    :param seed: int, optional. Seed for randomized block assigning.
+    :returns: pandas.DataFrame with new column for block.
     """
     def _assigner(blocks, prng):
         prng.shuffle(blocks)
@@ -134,16 +133,39 @@ def add_block(frame, block_size, id_col=None, seed=None):
     else:
         return frame.groupby(id_col).apply(_add).sort('block')
                 
+def simple_shuffle(frame, block=None, times=10, seed=None):
+    """
+    Shuffles trials a few times.
+    
+    :param frame: pandas.DataFrame of trials to be shuffled.
+    :param block: str column name to groupby before shuffling.
+    :param times: int, number of times to shuffle.
+    :param seed: int, optional for repeatable randomization.
+    :returns: pandas.DataFrame with rows in random order.
+    """
+    prng = np.random.RandomState(seed)
+    
+    def _shuffle(chunk):
+        for _ in range(times):
+            chunk = chunk.reindex(prng.permutation(chunk.index))
+        return chunk
+    
+    if block is None:
+        return _shuffle(frame)
+    else:
+        return frame.groupby(block).apply(_shuffle)
+
 def smart_shuffle(frame, col, block=None, seed=None, verbose=True, lim=10000):
     """
     Shuffles trials such that equivalent trials never appear back to back.
-        
-        frame --> pandas.DataFrame of trials
-        id_col --> str column name; column to ensure non-repeating trials
-        block --> str column name; chunk frame by block before shuffling
-        seed --> int seed; for shuffling order
-        ------------------------
-        returns pandas.DataFrame
+    
+    :param frame: pandas.DataFrame of trials to be shuffled.
+    :param col: str column of values to minimize repetitions.
+    :param block: str column to groupby before shuffling.
+    :param seed: int, optional for repeatable randomization.
+    :param verbose: bool. Should the status of randomization be printed?
+    :param lim: int maximum number of shuffles before giving up.
+    :returns: pandas.DataFrame with rows in randomized order.
     """
     prng = np.random.RandomState(seed)
         
@@ -162,29 +184,6 @@ def smart_shuffle(frame, col, block=None, seed=None, verbose=True, lim=10000):
             print 'Iteration limit reached! Minimum repeats: ', str(repeats)
         
         chunk.index = orig_index
-        return chunk
-    
-    if block is None:
-        return _shuffle(frame)
-    else:
-        return frame.groupby(block).apply(_shuffle)
-        
-def simple_shuffle(frame, block=None, times=10, seed=None):
-    """
-    Shuffles trials a few times.
-    
-        frame --> pandas.DataFrame of trials
-        block --> str column name; shuffle trials in groups
-        times --> int number of shuffles
-        seed --> int seed; for shuffling order
-        ------------------------
-        returns pandas.DataFrame
-    """
-    prng = np.random.RandomState(seed)
-    
-    def _shuffle(chunk):
-        for _ in range(times):
-            chunk = chunk.reindex(prng.permutation(chunk.index))
         return chunk
     
     if block is None:
