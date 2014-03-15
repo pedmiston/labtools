@@ -249,6 +249,9 @@ expand
     </table>
     </div>
 
+extend
+------
+
 .. autofunction:: resources.trials_functions.extend
 
 .. code:: python
