@@ -1,6 +1,14 @@
-Generators
-==========
 
+.. code:: python
+
+    import pandas as pd
+    import numpy as np
+    
+    import sys, os
+    sys.path.insert(0, os.path.abspath('..'))
+    
+    from resources.trials_functions import *
+    from resources.generator_functions import *
 .. code:: python
 
     items = ['red','orange','yellow','green','blue','indigo','violet']
@@ -11,6 +19,8 @@ Generators
     stroop = extend(stroop, reps = 4, rep_ix = 'letters_iter', 
                     row_ix = 'letters_id')
     stroop
+
+
 
 .. raw:: html
 
@@ -197,14 +207,13 @@ Generators
     </table>
     </div>
 
-generate
---------
 
-.. autofunction:: resources.generator_functions.generate
 
 .. code:: python
 
     generate(stroop, items, cols = {'item':'color'}, seed = 123)
+
+
 
 .. raw:: html
 
@@ -420,10 +429,7 @@ generate
     </table>
     </div>
 
-generate_but_not
-----------------
 
-.. autofunction:: resources.generator_functions.generate_but_not
 
 .. code:: python
 
@@ -646,12 +652,8 @@ generate_but_not
     </table>
     </div>
 
-generate_by_group
------------------
 
-.. autofunction:: resources.generator_functions.generate_by_group
 
-generate_matches
-----------------
+.. code:: python
 
-.. autofunction:: resources.generator_functions.generate_matches
+    
