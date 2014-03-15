@@ -212,7 +212,30 @@ column.</p>
 </table>
 </dd></dl>
 
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">posner</span> <span class="o">=</span> <span class="n">expand</span><span class="p">(</span><span class="n">posner</span><span class="p">,</span> <span class="s">&#39;valid_prime&#39;</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="mf">0.75</span><span class="p">)</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">posner</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s">&#39;target_dir&#39;</span><span class="p">:[</span><span class="s">&#39;left&#39;</span><span class="p">,</span><span class="s">&#39;right&#39;</span><span class="p">]})</span>
+<span class="n">posner</span>
+</pre></div>
+</div>
+<div style="max-height:1000px;max-width:1500px;overflow:auto;">
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>target_dir</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>  left</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td> right</td>
+    </tr>
+  </tbody>
+</table>
+</div><div class="code python highlight-python"><div class="highlight"><pre><span class="n">posner</span> <span class="o">=</span> <span class="n">expand</span><span class="p">(</span><span class="n">posner</span><span class="p">,</span> <span class="s">&#39;valid_prime&#39;</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="mf">0.75</span><span class="p">)</span>
 <span class="n">posner</span>
 </pre></div>
 </div>
