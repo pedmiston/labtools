@@ -49,11 +49,18 @@ def generate(frame, source, cols=None, seed=None):
     elif not hasattr(cols, '__iter__'):
         cols = [cols,]
     
+    if not isinstance(cols, dict):
+        cols = dict(zip(cols,cols))
+    
     gen = _generator(source, prng)
     g_frame = pd.concat([gen.next() for _ in xrange(len(frame))], axis=1).T
-    g_frame = g_frame.convert_objects(convert_numeric=True)
+    g_frame = g_frame.convert_objects(convert_numeric = True)
+    g_frame = g_frame[cols.keys()].rename(columns = cols)
+    
     g_frame.index = frame.index
-    return g_frame[cols]
+    frame[cols.values()] = g_frame[cols.values()]
+    
+    return frame
 
 def generate_by_group(frame, by, source_map, cols=None, seed=None):
     num_seeds = len(frame[by].unique()) + 1
