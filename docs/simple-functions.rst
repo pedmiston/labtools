@@ -71,6 +71,34 @@ expand
 
 .. code:: python
 
+    posner = pd.DataFrame({'target_dir':['left','right']})
+    posner
+
+.. raw:: html
+
+    <div style="max-height:1000px;max-width:1500px;overflow:auto;">
+    <table border="1" class="dataframe">
+      <thead>
+        <tr style="text-align: right;">
+          <th></th>
+          <th>target_dir</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>0</th>
+          <td>  left</td>
+        </tr>
+        <tr>
+          <th>1</th>
+          <td> right</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+.. code:: python
+
     posner = expand(posner, 'valid_prime', ratio=0.75)
     posner
 
