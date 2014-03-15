@@ -5,5 +5,5 @@
 *.pyc
 
 # ipython notebook files
-.ipynb_checkpoints/*
-*notebook_files/*
+demos/.ipynb_checkpoints/*
+demos/*notebook_files/*
