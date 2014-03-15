@@ -1,15 +1,14 @@
-.. Experiment Resources documentation master file, created by
-   sphinx-quickstart on Wed Feb  5 16:31:34 2014.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+Experiment Resources Documentation
+==================================
 
-Welcome to Experiment Resources's documentation!
-================================================
+Below are links to docs and examples of some helper functions and classes I use for conducting behavioral research in python. All source code can be downloaded from github:
+
+`<https://github.com/pedmiston/experiment-resources>`_
 
 Contents:
 
 .. toctree::
-    :maxdepth: 2
+    :maxdepth: 1
    
     trial-lists
     
