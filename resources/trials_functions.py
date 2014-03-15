@@ -84,11 +84,11 @@ def extend(frame, reps=None, max_length=None, rep_ix=None, row_ix=None):
                    is the original index of frame.
     :returns: pandas.DataFrame of duplicated trials
     """
-    
-    reps = reps or max_length/len(frame)
-    
-    if reps < 1:
-        reps = 1
+    if not hasattr(reps, '__iter__'):
+        reps = reps or max_length/len(frame)
+        if reps < 1:
+            reps = 1
+        reps = range(reps)
     
     col_names = [rep_ix or 'DEFAULT1', row_ix or 'DEFAULT2']
     
@@ -98,7 +98,7 @@ def extend(frame, reps=None, max_length=None, rep_ix=None, row_ix=None):
     if row_ix is not None:
         to_drop.remove('DEFAULT2')
     
-    repeated = pd.concat([frame]*reps, keys=range(1,reps+1), names=col_names).reset_index()
+    repeated = pd.concat([frame]*len(reps), keys=reps, names=col_names).reset_index()
     return repeated.drop(to_drop, axis=1)
 
 def add_block(frame, block_size, id_col=None, seed=None):
