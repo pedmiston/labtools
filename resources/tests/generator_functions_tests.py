@@ -20,15 +20,15 @@ class TestGenerate(unittest.TestCase):
     
     def test_single_col(self):
         col = 'x'
-        self.trials['x'] = generate(self.trials, self.info, cols=col)
+        self.trials = generate(self.trials, self.info, cols=col)
         matches = (self.trials[col].head(len(self.info)).values == \
                    self.info[col].values)
         self.assertTrue(matches.sum() == len(self.info))
     
     def test_multi_col(self):
         cols = ['x','ix']
-        self.trials[cols] = generate(self.trials, self.info, 
-                                     cols=cols)
+        self.trials = generate(self.trials, self.info, 
+                               cols=cols)
         for col in cols:
             matches = (self.trials[col].head(len(self.info)).values == \
                        self.info[col].values)
@@ -48,7 +48,7 @@ class TestGenerateByGroup(unittest.TestCase):
     def test_group_by(self):
         source_map = {0: self.info0,
                       1: self.info1}
-        self.trials[['x','ix']] = generate_by_group(self.trials, 'c', source_map)
+        self.trials = generate_by_group(self.trials, 'c', source_map)
         
         trials0 = self.trials['x'][self.trials['c'] == 0]        
         trials1 = self.trials['x'][self.trials['c'] == 1]
@@ -69,8 +69,8 @@ class TestGenerateButNot(unittest.TestCase):
         self.info = counterbalance({'b':_vars['b'],'ix':range(5)})
     
     def test_but_not(self):
-        self.trials['xb'] = generate_but_not(self.trials, self.info, 
-                                             on='b', cols='b')
+        self.trials = generate_but_not(self.trials, self.info, 
+                                       on='b', cols={'b':'xb'})
         self.trials.to_csv('test.csv')
         matches = (self.trials['xb'] == self.trials['b'])
         self.assertTrue(matches.sum() == 0)
@@ -78,8 +78,8 @@ class TestGenerateButNot(unittest.TestCase):
     def test_but_not_separate(self):
         self.info = self.info.rename(columns={'b':'bb'})
         
-        self.trials['xb'] = generate_but_not(self.trials, self.info,
-                                             on=['b','bb'], cols='bb')
+        self.trials = generate_but_not(self.trials, self.info,
+                                             on=['b','bb'], cols={'bb':'xb'})
         matches = (self.trials['xb'] == self.trials['b'])
         self.assertTrue(matches.sum() == 0)
 
