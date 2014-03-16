@@ -6,4 +6,4 @@
 
 # ipython notebook files
 demos/.ipynb_checkpoints/*
-demos/*notebook_files/*
+*/*notebook_files/*
