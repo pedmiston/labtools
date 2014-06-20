@@ -71,7 +71,6 @@ class TestGenerateButNot(unittest.TestCase):
     def test_but_not(self):
         self.trials = generate_but_not(self.trials, self.info, 
                                        on='b', cols={'b':'xb'})
-        self.trials.to_csv('test.csv')
         matches = (self.trials['xb'] == self.trials['b'])
         self.assertTrue(matches.sum() == 0)
     
