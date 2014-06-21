@@ -1,0 +1,14 @@
+README.rst
+setup.cfg
+setup.py
+experiment_resources/__init__.py
+experiment_resources/generator_functions.py
+experiment_resources/trials_functions.py
+experiment_resources.egg-info/PKG-INFO
+experiment_resources.egg-info/SOURCES.txt
+experiment_resources.egg-info/dependency_links.txt
+experiment_resources.egg-info/requires.txt
+experiment_resources.egg-info/top_level.txt
+experiment_resources/tests/__init__.py
+experiment_resources/tests/generator_functions_tests.py
+experiment_resources/tests/trials_functions_tests.py
