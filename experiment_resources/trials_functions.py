@@ -1,12 +1,11 @@
 #!/usr/bin/env python
 """
-resources.trials_functions
+experiment_resources.trials_functions
 """
 import pandas as pd
 import numpy as np
-import itertools as itls
-from copy import copy
-from exceptions import AssertionError
+
+from itertools import product
 
 def counterbalance(conditions, order=None):
     """
@@ -25,7 +24,7 @@ def counterbalance(conditions, order=None):
         if not hasattr(v, '__iter__'):
             conditions[k] = [v]
     
-    combinations = list(itls.product(*conditions.values()))
+    combinations = list(product(*conditions.values()))
     frame = pd.DataFrame(combinations, columns=conditions.keys())
     
     if order is None:
@@ -101,12 +100,13 @@ def extend(frame, reps=None, max_length=None, rep_ix=None, row_ix=None):
     repeated = pd.concat([frame]*len(reps), keys=reps, names=col_names).reset_index()
     return repeated.drop(to_drop, axis=1)
 
-def add_block(frame, block_size, id_col=None, seed=None):
+def add_block(frame, size, name='block', start_at=0, 
+              id_col=None, seed=None):
     """
     Creates a new column for block.
     
     :param frame: pandas.DataFrame. Trials to be parsed into blocks.
-    :param block_size: int. Size of blocks.
+    :param size: int. Size of blocks.
     :param id_col: str, optional. Column to groupby before blocking.
     :param seed: int, optional. Seed for randomized block assigning.
     :returns: pandas.DataFrame with new column for block.
@@ -121,17 +121,20 @@ def add_block(frame, block_size, id_col=None, seed=None):
             i = (i+1)%len(blocks)
             
     prng = np.random.RandomState(seed)
-    blocks = range(len(frame)/block_size)
+    blocks = range(len(frame)/size)
     assigner = _assigner(blocks, prng)
     
     def _add(chunk):
-        chunk['block'] = [assigner.next() for _ in xrange(len(chunk))]
+        chunk[name] = [assigner.next() for _ in xrange(len(chunk))]
         return chunk
     
     if id_col is None:
-        return _add(frame).sort('block')
+        new_frame = _add(frame).sort(name)
     else:
-        return frame.groupby(id_col).apply(_add).sort('block')
+        new_frame = frame.groupby(id_col).apply(_add).sort(name)
+    
+    new_frame[name] = new_frame[name] + start_at
+    return new_frame
                 
 def simple_shuffle(frame, block=None, times=10, seed=None):
     """
