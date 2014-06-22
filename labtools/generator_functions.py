@@ -1,17 +1,21 @@
 #!/usr/bin/env python
 """
-experiment_resources.generator_functions
+labtools.generator_functions
 """
 import pandas as pd
 import numpy as np
 
-def _generator(source, prng=None):
+from operator import eq, ne
+
+def _circular_generator(source, prng=None):
     """
     Yield rows from source with optional randomization.
     
-    :param source: pandas.DataFrame.
-    :param prng: numpy.RandomState, optional.
-    :return: Yields pandas.Series for rows of source
+    :param pandas.DataFrame source: Frame to yield from.
+    :param prng: Optional randomizer.
+    :type prng: numpy.random.RandomState or None
+    :return: Yields rows from source.
+    :rtype: pandas.Series
     """
     ix_options = source.index.tolist()
     num_options = len(ix_options)
@@ -28,50 +32,68 @@ def _generator(source, prng=None):
         if prng is not None and ix%num_options == 0:
             prng.shuffle(ix_options)
 
-def generate(frame, source, cols=None, seed=None):
+def generate(frame, source, source_cols=None, seed=None):
     """
-    Yield `length` rows from source.
+    Adds columns to a trial list from a source using a circular generator.
     
-    :param source: pandas.DataFrame.
-    :param length: int. Number of items to generate from source.
-    :param cols: str or list, optional.
-    :param seed: int, optional.
-    :return: pandas.DataFrame.
+    :param pandas.DataFrame frame: Trial list.
+    :param pandas.DataFrame source: Source list.
+    :param source_cols: Columns of `source` to add to `frame`. Defaults to
+        adding all columns of `source`. If `source_cols` is a dict, keys will be 
+        renamed to values.
+    :type source_cols: str, list, dict, or None
+    :param seed: Seed random number generator.
+    :type seed: int or None
+    :return: The `frame` with additional `source_cols` from `source`.
+    :rtype: pandas.DataFrame
     """
     prng = None
     
     if seed is not None:
         prng = np.random.RandomState(seed)
     
-    if cols is None:
-        cols = source.columns
-    elif not hasattr(cols, '__iter__'):
-        cols = [cols,]
+    if source_cols is None:
+        source_cols = source.columns
+    elif not hasattr(source_cols, '__iter__'):
+        source_cols = [source_cols,]
     
-    if not isinstance(cols, dict):
-        cols = dict(zip(cols,cols))
+    if not isinstance(source_cols, dict):
+        source_cols = dict(zip(source_cols, source_cols))
     
-    gen = _generator(source, prng)
+    gen = _circular_generator(source, prng)
     g_frame = pd.concat([gen.next() for _ in xrange(len(frame))], axis=1).T
     g_frame = g_frame.convert_objects(convert_numeric = True)
-    g_frame = g_frame[cols.keys()].rename(columns = cols)
+    g_frame = g_frame[source_cols.keys()].rename(columns = source_cols)
     
     g_frame.index = frame.index
-    frame[cols.values()] = g_frame[cols.values()]
+    frame[source_cols.values()] = g_frame[source_cols.values()]
     
     return frame
 
-def generate_by_group(frame, by, source_map, cols=None, seed=None):
+def generate_by_group(frame, by, source_map, source_cols=None, seed=None):
     """
-    Split a trial list on a key and generate rows from a source.
+    Adds columns to a trial list from multiple sources.
     
-    :param frame: pandas.DataFrame.
-    :param by: str. Column in `frame` with unique values for keys in 
-               `source_map`
-    :param cols: str, optional. Columns in `source_map` to keep. By default, 
-                 includes all columns.
-    :param seed: int, optional. Necessary for randomization.
+    Splits a trial list into chunks to add columns from various sources. Chunks
+    are paired with sources based on unique values in `frame[by]`. See 
+    :func:`generate` for more details.
+    
+    :param pandas.DataFrame frame: Trial list.
+    :param str by: Grouping column in `frame`. Unique values are used as keys to
+        get sources from `source_map`.
+    :param dict source_map: Container of source lists. Keys are unique values of
+        `frame[by]`. Values are pandas.DataFrame sources.
+    :param source_cols: Columns of `source` to add to `frame`. Defaults to
+        adding all columns of `source`. If `source_cols` is a dict, keys will be 
+        renamed to values.
+    :type source_cols: str, list, dict, or None
+    :param seed: Seed random number generator. If `None` the result will not be
+        randomized.
+    :type seed: int or None
+    :return: The `frame` with additional `source_cols` from `source`.
+    :rtype: pandas.DataFrame
     """
+    # create unique seeds for each part
     num_seeds = len(frame[by].unique()) + 1
     if seed is not None:
         prng = np.random.RandomState(seed)
@@ -79,45 +101,103 @@ def generate_by_group(frame, by, source_map, cols=None, seed=None):
     else:
         seeds = [None]*num_seeds
         
-    def _generate(group):
-        grp_ix = group[by].unique()[0]
-        source = source_map[grp_ix]
-        g_frame = generate(group, source, cols=cols, seed=seeds.pop())
-        g_frame.index = group.index
-        return g_frame
+    def _generate_for_group(grp):
+        group_key = grp[by].unique()[0]
+        group_source = source_map[group_key]
+        group_frame = generate(grp, group_source, source_cols, seeds.pop())
+        group_frame.index = grp.index
+        return group_frame
     
-    return frame.groupby(by, group_keys=False).apply(_generate)
+    return frame.groupby(by, group_keys=False).apply(_generate_for_group)
 
-def generate_matches(frame, source, on, cols=None, seed=None):
+def create_source_map(source, on, comparison_func, source_keys):
     """
-    Creates a source map based on matching values and calls `generate_by_group`.
+    Splits a source into groups using a comparison function.
     
-    :param frame: pandas.DataFrame.
-    :param source: pandas.DataFrame. Full options to split into the source_map.
-    :param on: str or list. Column names to match source and frame on.
-    :param cols: list. Column names in source to keep.
-    :param seed: int, optional.
+    :param pandas.DataFrame source: Source list.
+    :param str on: `source[on]` is used as an operand in `comparison_func`.
+    :param list source_keys: Secondary operand in `comparison_func`.
+    :param function comparison_func: Function to compare `source[on]` to 
+        `source_keys`. Must return a boolean mask the same length as `source`.
+    :return: Map of source_keys to subsets of the source that satisfy the 
+        `comparison_func`
+    :rtype: dict
+    """
+    source_map = {}
+    for key in source_keys:
+        select = comparison_func(source[on], key)
+        source_map[key] = source[select]
+    
+    return source_map
+
+def generate_matches(frame, source, on, source_cols=None, seed=None):
+    """
+    Adds columns to a trial list based on *matching* values in source.
+    
+    For more information:
+        * on how the columns are added, see :func:`generate_by_group`.
+        * on how the matching values are selected, see 
+          :func:`create_source_map`
+    
+    :param pandas.DataFrame frame:
+    :param pandas.DataFrame source: Full options to split into the source_map.
+    :param on: Column names to match source and frame on.
+    :type on: str or list
+    :param source_cols: Columns of `source` to add to `frame`. Defaults to
+        adding all columns of `source`. If `source_cols` is a dict, keys will be 
+        renamed to values.
+    :type source_cols: str, list, dict, or None
+    :param seed: Seed random number generator. If `None` the result will not be
+        randomized.
+    :type seed: int or None
+    :return: The `frame` with additional `source_cols` from sources.
+    :rtype: pandas.DataFrame
     """
     if not isinstance(on, list):
         on = [on, on]
     f_on, s_on = on
-    source_map = {val: source[source[s_on] == val] \
-                  for val in frame[f_on].unique()}
-    return generate_by_group(frame, f_on, source_map, cols, seed)
-
-def generate_but_not(frame, source, on, cols=None, seed=None):
-    """
-    Creates a source map based on mismatching values and calls `generate_by_group`.
     
-    :param frame: pandas.DataFrame.
-    :param source: pandas.DataFrame. Full options to split into the source_map.
-    :param on: str or list. Columns names to match source and frame on.
-    :param cols: Column names to mismatch source and frame on.
-    :param seed: int, optional.
+    source_keys = frame[f_on].unique()
+    
+    def _is_equal(x, y): 
+        return x == y
+    
+    source_map = create_source_map(source, s_on, source_keys, _is_equal)
+    
+    return generate_by_group(frame, f_on, source_map, source_cols, seed)
+
+def generate_but_not(frame, source, on, source_cols=None, seed=None):
+    """
+    Adds columns to a trial list based on *non-matching* values in source.
+    
+    For more information:
+        * on how the columns are added, see :func:`generate_by_group`.
+        * on how the non-matching values are selected, see 
+          :func:`create_source_map`
+    
+    :param pandas.DataFrame frame:
+    :param pandas.DataFrame source: Full options to split into the source_map.
+    :param on: Column names to match source and frame on.
+    :type on: str or list
+    :param source_cols: Columns of `source` to add to `frame`. Defaults to
+        adding all columns of `source`. If `source_cols` is a dict, keys will be 
+        renamed to values.
+    :type source_cols: str, list, dict, or None
+    :param seed: Seed random number generator. If `None` the result will not be
+        randomized.
+    :type seed: int or None
+    :return: The `frame` with additional `source_cols` from sources.
+    :rtype: pandas.DataFrame
     """
     if not isinstance(on, list):
         on = [on, on]
     f_on, s_on = on
-    source_map = {val: source[source[s_on] != val] \
-                  for val in frame[f_on].unique()}
-    return generate_by_group(frame, f_on, source_map, cols, seed)
+    
+    source_keys = frame[f_on].unique()
+    
+    def _is_not_equal(x, y):
+        return x != y
+    
+    source_map = create_source_map(source, s_on, source_keys, _is_not_equal)
+    
+    return generate_by_group(frame, f_on, source_map, source_cols, seed)

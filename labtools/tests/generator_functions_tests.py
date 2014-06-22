@@ -20,7 +20,7 @@ class TestGenerate(unittest.TestCase):
     
     def test_single_col(self):
         col = 'x'
-        self.trials = generate(self.trials, self.info, cols=col)
+        self.trials = generate(self.trials, self.info, source_cols=col)
         matches = (self.trials[col].head(len(self.info)).values == \
                    self.info[col].values)
         self.assertTrue(matches.sum() == len(self.info))
@@ -28,7 +28,7 @@ class TestGenerate(unittest.TestCase):
     def test_multi_col(self):
         cols = ['x','ix']
         self.trials = generate(self.trials, self.info, 
-                               cols=cols)
+                               source_cols=cols)
         for col in cols:
             matches = (self.trials[col].head(len(self.info)).values == \
                        self.info[col].values)
@@ -70,7 +70,7 @@ class TestGenerateButNot(unittest.TestCase):
     
     def test_but_not(self):
         self.trials = generate_but_not(self.trials, self.info, 
-                                       on='b', cols={'b':'xb'})
+                                       on='b', source_cols={'b':'xb'})
         matches = (self.trials['xb'] == self.trials['b'])
         self.assertTrue(matches.sum() == 0)
     
@@ -78,7 +78,7 @@ class TestGenerateButNot(unittest.TestCase):
         self.info = self.info.rename(columns={'b':'bb'})
         
         self.trials = generate_but_not(self.trials, self.info,
-                                             on=['b','bb'], cols={'bb':'xb'})
+                                             on=['b','bb'], source_cols={'bb':'xb'})
         matches = (self.trials['xb'] == self.trials['b'])
         self.assertTrue(matches.sum() == 0)
 
