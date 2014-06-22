@@ -13,3 +13,9 @@ demos:
 	    demos/generators-notebook.ipynb
 docs:
 	cd docs && $(MAKE) html
+
+docs-push:
+	cd ../labtools/docs/html
+	git add .
+	git commit -m "Updates to docs"
+	git push origin gh-pages
