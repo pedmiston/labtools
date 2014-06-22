@@ -1,3 +1,5 @@
+.PHONY: tests demos docs
+
 tests:
 	python -m experiment_resources.tests.trials_functions_tests
 	python -m experiment_resources.tests.generator_functions_tests

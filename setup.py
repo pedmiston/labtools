@@ -9,13 +9,13 @@ with open(path.join(package_root_dir, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name = 'experiment_resources',
+    name = 'labtools',
     version = open('VERSION').readline().strip(),
 
     keywords = 'research psychology experiments',
     description = 'Resources for running behavioral experiments',
     long_description = long_description,
-    url = 'https://github.com/pedmiston/experiment_resources',
+    url = 'https://github.com/pedmiston/labtools',
     
     author = 'Pierce Edmiston',
     author_email = 'pierce.edmiston@gmail.com',
