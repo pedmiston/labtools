@@ -1,0 +1,278 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Generator Functions &mdash; Experiment Resources 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Experiment Resources 1.0 documentation" href="index.html" />
+    <link rel="prev" title="Generators" href="generators.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="generators.html" title="Generators"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Experiment Resources 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="generators.html"
+                        title="previous chapter">Generators</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/generator-functions.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-labtools.generator_functions">
+<span id="generator-functions"></span><h1>Generator Functions<a class="headerlink" href="#module-labtools.generator_functions" title="Permalink to this headline">¶</a></h1>
+<p>labtools.generator_functions</p>
+<dl class="function">
+<dt id="labtools.generator_functions.generate">
+<tt class="descclassname">labtools.generator_functions.</tt><tt class="descname">generate</tt><big>(</big><em>frame</em>, <em>source</em>, <em>source_cols=None</em>, <em>seed=None</em><big>)</big><a class="reference internal" href="_modules/labtools/generator_functions.html#generate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#labtools.generator_functions.generate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds columns to a trial list from a source using a circular generator.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>frame</strong> (<em>pandas.DataFrame</em>) &#8211; Trial list.</li>
+<li><strong>source</strong> (<em>pandas.DataFrame</em>) &#8211; Source list.</li>
+<li><strong>source_cols</strong> (<em>str, list, dict, or None</em>) &#8211; Columns of <cite>source</cite> to add to <cite>frame</cite>. Defaults to
+adding all columns of <cite>source</cite>. If <cite>source_cols</cite> is a dict, keys will be 
+renamed to values.</li>
+<li><strong>seed</strong> (<em>int or None</em>) &#8211; Seed random number generator.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The <cite>frame</cite> with additional <cite>source_cols</cite> from <cite>source</cite>.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">pandas.DataFrame</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="labtools.generator_functions.generate_by_group">
+<tt class="descclassname">labtools.generator_functions.</tt><tt class="descname">generate_by_group</tt><big>(</big><em>frame</em>, <em>by</em>, <em>source_map</em>, <em>source_cols=None</em>, <em>seed=None</em><big>)</big><a class="reference internal" href="_modules/labtools/generator_functions.html#generate_by_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#labtools.generator_functions.generate_by_group" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds columns to a trial list from multiple sources.</p>
+<p>Splits a trial list into chunks to add columns from various sources. Chunks
+are paired with sources based on unique values in <cite>frame[by]</cite>. See 
+<a class="reference internal" href="#labtools.generator_functions.generate" title="labtools.generator_functions.generate"><tt class="xref py py-func docutils literal"><span class="pre">generate()</span></tt></a> for more details.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>frame</strong> (<em>pandas.DataFrame</em>) &#8211; Trial list.</li>
+<li><strong>by</strong> (<em>str</em>) &#8211; Grouping column in <cite>frame</cite>. Unique values are used as keys to
+get sources from <cite>source_map</cite>.</li>
+<li><strong>source_map</strong> (<em>dict</em>) &#8211; Container of source lists. Keys are unique values of
+<cite>frame[by]</cite>. Values are pandas.DataFrame sources.</li>
+<li><strong>source_cols</strong> (<em>str, list, dict, or None</em>) &#8211; Columns of <cite>source</cite> to add to <cite>frame</cite>. Defaults to
+adding all columns of <cite>source</cite>. If <cite>source_cols</cite> is a dict, keys will be 
+renamed to values.</li>
+<li><strong>seed</strong> (<em>int or None</em>) &#8211; Seed random number generator. If <cite>None</cite> the result will not be
+randomized.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The <cite>frame</cite> with additional <cite>source_cols</cite> from <cite>source</cite>.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">pandas.DataFrame</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="labtools.generator_functions.create_source_map">
+<tt class="descclassname">labtools.generator_functions.</tt><tt class="descname">create_source_map</tt><big>(</big><em>source</em>, <em>on</em>, <em>comparison_func</em>, <em>source_keys</em><big>)</big><a class="headerlink" href="#labtools.generator_functions.create_source_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Splits a source into groups using a comparison function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>source</strong> (<em>pandas.DataFrame</em>) &#8211; Source list.</li>
+<li><strong>on</strong> (<em>str</em>) &#8211; <cite>source[on]</cite> is used as an operand in <cite>comparison_func</cite>.</li>
+<li><strong>source_keys</strong> (<em>list</em>) &#8211; Secondary operand in <cite>comparison_func</cite>.</li>
+<li><strong>comparison_func</strong> (<em>function</em>) &#8211; Function to compare <cite>source[on]</cite> to 
+<cite>source_keys</cite>. Must return a boolean mask the same length as <cite>source</cite>.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Map of source_keys to subsets of the source that satisfy the 
+<cite>comparison_func</cite></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">dict</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="labtools.generator_functions.generate_matches">
+<tt class="descclassname">labtools.generator_functions.</tt><tt class="descname">generate_matches</tt><big>(</big><em>frame</em>, <em>source</em>, <em>on</em>, <em>source_cols=None</em>, <em>seed=None</em><big>)</big><a class="reference internal" href="_modules/labtools/generator_functions.html#generate_matches"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#labtools.generator_functions.generate_matches" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds columns to a trial list based on <em>matching</em> values in source.</p>
+<dl class="docutils">
+<dt>For more information:</dt>
+<dd><ul class="first last simple">
+<li>on how the columns are added, see <a class="reference internal" href="#labtools.generator_functions.generate_by_group" title="labtools.generator_functions.generate_by_group"><tt class="xref py py-func docutils literal"><span class="pre">generate_by_group()</span></tt></a>.</li>
+<li>on how the matching values are selected, see 
+<a class="reference internal" href="#labtools.generator_functions.create_source_map" title="labtools.generator_functions.create_source_map"><tt class="xref py py-func docutils literal"><span class="pre">create_source_map()</span></tt></a></li>
+</ul>
+</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>frame</strong> (<em>pandas.DataFrame</em>) &#8211; </li>
+<li><strong>source</strong> (<em>pandas.DataFrame</em>) &#8211; Full options to split into the source_map.</li>
+<li><strong>on</strong> (<em>str or list</em>) &#8211; Column names to match source and frame on.</li>
+<li><strong>source_cols</strong> (<em>str, list, dict, or None</em>) &#8211; Columns of <cite>source</cite> to add to <cite>frame</cite>. Defaults to
+adding all columns of <cite>source</cite>. If <cite>source_cols</cite> is a dict, keys will be 
+renamed to values.</li>
+<li><strong>seed</strong> (<em>int or None</em>) &#8211; Seed random number generator. If <cite>None</cite> the result will not be
+randomized.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The <cite>frame</cite> with additional <cite>source_cols</cite> from sources.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">pandas.DataFrame</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="labtools.generator_functions.generate_but_not">
+<tt class="descclassname">labtools.generator_functions.</tt><tt class="descname">generate_but_not</tt><big>(</big><em>frame</em>, <em>source</em>, <em>on</em>, <em>source_cols=None</em>, <em>seed=None</em><big>)</big><a class="reference internal" href="_modules/labtools/generator_functions.html#generate_but_not"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#labtools.generator_functions.generate_but_not" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds columns to a trial list based on <em>non-matching</em> values in source.</p>
+<dl class="docutils">
+<dt>For more information:</dt>
+<dd><ul class="first last simple">
+<li>on how the columns are added, see <a class="reference internal" href="#labtools.generator_functions.generate_by_group" title="labtools.generator_functions.generate_by_group"><tt class="xref py py-func docutils literal"><span class="pre">generate_by_group()</span></tt></a>.</li>
+<li>on how the non-matching values are selected, see 
+<a class="reference internal" href="#labtools.generator_functions.create_source_map" title="labtools.generator_functions.create_source_map"><tt class="xref py py-func docutils literal"><span class="pre">create_source_map()</span></tt></a></li>
+</ul>
+</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>frame</strong> (<em>pandas.DataFrame</em>) &#8211; </li>
+<li><strong>source</strong> (<em>pandas.DataFrame</em>) &#8211; Full options to split into the source_map.</li>
+<li><strong>on</strong> (<em>str or list</em>) &#8211; Column names to match source and frame on.</li>
+<li><strong>source_cols</strong> (<em>str, list, dict, or None</em>) &#8211; Columns of <cite>source</cite> to add to <cite>frame</cite>. Defaults to
+adding all columns of <cite>source</cite>. If <cite>source_cols</cite> is a dict, keys will be 
+renamed to values.</li>
+<li><strong>seed</strong> (<em>int or None</em>) &#8211; Seed random number generator. If <cite>None</cite> the result will not be
+randomized.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The <cite>frame</cite> with additional <cite>source_cols</cite> from sources.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">pandas.DataFrame</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="generators.html" title="Generators"
+             >previous</a> |</li>
+        <li><a href="index.html">Experiment Resources 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Pierce Edmiston.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

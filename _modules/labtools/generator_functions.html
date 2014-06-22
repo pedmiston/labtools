@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>resources.generator_functions &mdash; Experiment Resources 1.0 documentation</title>
+    <title>labtools.generator_functions &mdash; Experiment Resources 1.0 documentation</title>
     
     <link rel="stylesheet" href="../../_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <link rel="top" title="Experiment Resources 1.0 documentation" href="../../index.html" />
-    <link rel="up" title="resources" href="../resources.html" /> 
+    <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -39,8 +39,7 @@
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li><a href="../../index.html">Experiment Resources 1.0 documentation</a> &raquo;</li>
-          <li><a href="../index.html" >Module code</a> &raquo;</li>
-          <li><a href="../resources.html" accesskey="U">resources</a> &raquo;</li> 
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>
       <div class="sphinxsidebar">
@@ -66,24 +65,25 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <h1>Source code for resources.generator_functions</h1><div class="highlight"><pre>
+  <h1>Source code for labtools.generator_functions</h1><div class="highlight"><pre>
 <span class="c">#!/usr/bin/env python</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">resources.generator_functions</span>
+<span class="sd">labtools.generator_functions</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">itertools</span> <span class="kn">as</span> <span class="nn">itls</span>
 
 <span class="k">def</span> <span class="nf">_generator</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">prng</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Yield rows from source with optional randomization.</span>
 <span class="sd">    </span>
-<span class="sd">    :param source: pandas.DataFrame.</span>
-<span class="sd">    :param prng: numpy.RandomState, optional.</span>
-<span class="sd">    :return: Yields pandas.Series for rows of source</span>
+<span class="sd">    :param pandas.DataFrame source: Frame to yield from.</span>
+<span class="sd">    :param prng: Optional randomizer.</span>
+<span class="sd">    :type prng: numpy.random.RandomState or None</span>
+<span class="sd">    :return: Yields rows from source.</span>
+<span class="sd">    :rtype: pandas.Series</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">ix_options</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">source</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+    <span class="n">ix_options</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
     <span class="n">num_options</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ix_options</span><span class="p">)</span>
     
     <span class="k">if</span> <span class="n">prng</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
@@ -98,33 +98,62 @@
         <span class="k">if</span> <span class="n">prng</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">ix</span><span class="o">%</span><span class="n">num_options</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">prng</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">ix_options</span><span class="p">)</span>
 
-<div class="viewcode-block" id="generate"><a class="viewcode-back" href="../../generators.html#resources.generator_functions.generate">[docs]</a><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="generate"><a class="viewcode-back" href="../../generator-functions.html#labtools.generator_functions.generate">[docs]</a><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">source_cols</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Yield `length` rows from source.</span>
+<span class="sd">    Yield length rows from source.</span>
 <span class="sd">    </span>
-<span class="sd">    :param source: pandas.DataFrame.</span>
-<span class="sd">    :param length: int. Number of items to generate from source.</span>
-<span class="sd">    :param cols: str or list, optional.</span>
-<span class="sd">    :param seed: int, optional.</span>
-<span class="sd">    :return: pandas.DataFrame.</span>
+<span class="sd">    :param pandas.DataFrame frame: Trial list.</span>
+<span class="sd">    :param pandas.DataFrame source: Source list.</span>
+<span class="sd">    :param source_cols: Columns of `source` to add to `frame`. Defaults to</span>
+<span class="sd">        adding all columns of `source`. If `source_cols` is a dict, keys will be </span>
+<span class="sd">        renamed to values.</span>
+<span class="sd">    :type source_cols: str, list, dict, or None</span>
+<span class="sd">    :param seed: Seed random number generator.</span>
+<span class="sd">    :type seed: int or None</span>
+<span class="sd">    :return: The `frame` with additional `source_cols` from `source`.</span>
+<span class="sd">    :rtype: pandas.DataFrame</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">prng</span> <span class="o">=</span> <span class="bp">None</span>
     
     <span class="k">if</span> <span class="n">seed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
         <span class="n">prng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
     
-    <span class="k">if</span> <span class="n">cols</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="n">cols</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">columns</span>
-    <span class="k">elif</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">cols</span><span class="p">,</span> <span class="s">&#39;__iter__&#39;</span><span class="p">):</span>
-        <span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">cols</span><span class="p">,]</span>
+    <span class="k">if</span> <span class="n">source_cols</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">source_cols</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">columns</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">source_cols</span><span class="p">,</span> <span class="s">&#39;__iter__&#39;</span><span class="p">):</span>
+        <span class="n">source_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">source_cols</span><span class="p">,]</span>
+    
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">source_cols</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="n">source_cols</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">source_cols</span><span class="p">,</span> <span class="n">source_cols</span><span class="p">))</span>
     
     <span class="n">gen</span> <span class="o">=</span> <span class="n">_generator</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">prng</span><span class="p">)</span>
     <span class="n">g_frame</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">gen</span><span class="o">.</span><span class="n">next</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">frame</span><span class="p">))],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
-    <span class="n">g_frame</span> <span class="o">=</span> <span class="n">g_frame</span><span class="o">.</span><span class="n">convert_objects</span><span class="p">(</span><span class="n">convert_numeric</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">g_frame</span> <span class="o">=</span> <span class="n">g_frame</span><span class="o">.</span><span class="n">convert_objects</span><span class="p">(</span><span class="n">convert_numeric</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+    <span class="n">g_frame</span> <span class="o">=</span> <span class="n">g_frame</span><span class="p">[</span><span class="n">source_cols</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="n">source_cols</span><span class="p">)</span>
+    
     <span class="n">g_frame</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">index</span>
-    <span class="k">return</span> <span class="n">g_frame</span><span class="p">[</span><span class="n">cols</span><span class="p">]</span>
+    <span class="n">frame</span><span class="p">[</span><span class="n">source_cols</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span> <span class="o">=</span> <span class="n">g_frame</span><span class="p">[</span><span class="n">source_cols</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
+    
+    <span class="k">return</span> <span class="n">frame</span>
 </div>
-<div class="viewcode-block" id="generate_by_group"><a class="viewcode-back" href="../../generators.html#resources.generator_functions.generate_by_group">[docs]</a><span class="k">def</span> <span class="nf">generate_by_group</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">by</span><span class="p">,</span> <span class="n">source_map</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="generate_by_group"><a class="viewcode-back" href="../../generator-functions.html#labtools.generator_functions.generate_by_group">[docs]</a><span class="k">def</span> <span class="nf">generate_by_group</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">by</span><span class="p">,</span> <span class="n">source_map</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Split a trial list on a key and generate rows from a source.</span>
+<span class="sd">    </span>
+<span class="sd">    :param pandas.DataFrame frame: Trial list.</span>
+<span class="sd">    :param str by: Grouping column in `frame`. Unique values are used as keys to</span>
+<span class="sd">        get sources from `source_map`.</span>
+<span class="sd">    :param dict source_map: Container of source lists. Keys are unique values of</span>
+<span class="sd">        `frame[by]`. Values are pandas.DataFrame sources.</span>
+<span class="sd">    :param source_cols: Columns of `source` to add to `frame`. Defaults to</span>
+<span class="sd">        adding all columns of `source`. If `source_cols` is a dict, keys will be </span>
+<span class="sd">        renamed to values.</span>
+<span class="sd">    :type source_cols: str, list, dict, or None</span>
+<span class="sd">    :param seed: Seed random number generator.</span>
+<span class="sd">    :type seed: int or None</span>
+<span class="sd">    :return: The `frame` with additional `source_cols` from `source`.</span>
+<span class="sd">    :rtype: pandas.DataFrame</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">num_seeds</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">frame</span><span class="p">[</span><span class="n">by</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span> <span class="o">+</span> <span class="mi">1</span>
     <span class="k">if</span> <span class="n">seed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
         <span class="n">prng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
@@ -141,7 +170,16 @@
     
     <span class="k">return</span> <span class="n">frame</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">by</span><span class="p">,</span> <span class="n">group_keys</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">_generate</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="generate_matches"><a class="viewcode-back" href="../../generators.html#resources.generator_functions.generate_matches">[docs]</a><span class="k">def</span> <span class="nf">generate_matches</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">on</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="generate_matches"><a class="viewcode-back" href="../../generator-functions.html#labtools.generator_functions.generate_matches">[docs]</a><span class="k">def</span> <span class="nf">generate_matches</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">on</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates a source map based on matching values and calls `generate_by_group`.</span>
+<span class="sd">    </span>
+<span class="sd">    :param frame: pandas.DataFrame.</span>
+<span class="sd">    :param source: pandas.DataFrame. Full options to split into the source_map.</span>
+<span class="sd">    :param on: str or list. Column names to match source and frame on.</span>
+<span class="sd">    :param cols: list. Column names in source to keep.</span>
+<span class="sd">    :param seed: int, optional.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">on</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
         <span class="n">on</span> <span class="o">=</span> <span class="p">[</span><span class="n">on</span><span class="p">,</span> <span class="n">on</span><span class="p">]</span>
     <span class="n">f_on</span><span class="p">,</span> <span class="n">s_on</span> <span class="o">=</span> <span class="n">on</span>
@@ -149,7 +187,16 @@
                   <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">frame</span><span class="p">[</span><span class="n">f_on</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()}</span>
     <span class="k">return</span> <span class="n">generate_by_group</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">f_on</span><span class="p">,</span> <span class="n">source_map</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">seed</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="generate_but_not"><a class="viewcode-back" href="../../generators.html#resources.generator_functions.generate_but_not">[docs]</a><span class="k">def</span> <span class="nf">generate_but_not</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">on</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="generate_but_not"><a class="viewcode-back" href="../../generator-functions.html#labtools.generator_functions.generate_but_not">[docs]</a><span class="k">def</span> <span class="nf">generate_but_not</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">on</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates a source map based on mismatching values and calls `generate_by_group`.</span>
+<span class="sd">    </span>
+<span class="sd">    :param frame: pandas.DataFrame.</span>
+<span class="sd">    :param source: pandas.DataFrame. Full options to split into the source_map.</span>
+<span class="sd">    :param on: str or list. Columns names to match source and frame on.</span>
+<span class="sd">    :param cols: Column names to mismatch source and frame on.</span>
+<span class="sd">    :param seed: int, optional.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">on</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
         <span class="n">on</span> <span class="o">=</span> <span class="p">[</span><span class="n">on</span><span class="p">,</span> <span class="n">on</span><span class="p">]</span>
     <span class="n">f_on</span><span class="p">,</span> <span class="n">s_on</span> <span class="o">=</span> <span class="n">on</span>
@@ -173,8 +220,7 @@
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li><a href="../../index.html">Experiment Resources 1.0 documentation</a> &raquo;</li>
-          <li><a href="../index.html" >Module code</a> &raquo;</li>
-          <li><a href="../resources.html" >resources</a> &raquo;</li> 
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

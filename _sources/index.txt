@@ -5,13 +5,22 @@ Below are links to docs and examples of some helper functions and classes I use 
 
 `<https://github.com/pedmiston/labtools>`_
 
-Contents:
+Demos
+=====
 
 .. toctree::
-    :maxdepth: 1
+    :maxdepth: 2
    
-    trial-lists
-    
+    demo-trial-lists
+
+Documentation
+=============
+
+.. toctree::
+      :maxdepth: 1
+      
+      trials-functions
+      generator-functions
 
 Indices and tables
 ==================
