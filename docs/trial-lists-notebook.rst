@@ -74,6 +74,7 @@ counterbalance
         </tr>
       </tbody>
     </table>
+    <p>6 rows × 3 columns</p>
     </div>
 
 
@@ -110,6 +111,7 @@ expand
         </tr>
       </tbody>
     </table>
+    <p>2 rows × 1 columns</p>
     </div>
 
 
@@ -175,6 +177,7 @@ expand
         </tr>
       </tbody>
     </table>
+    <p>8 rows × 2 columns</p>
     </div>
 
 
@@ -298,6 +301,7 @@ expand
         </tr>
       </tbody>
     </table>
+    <p>16 rows × 3 columns</p>
     </div>
 
 
@@ -519,6 +523,7 @@ extend
         </tr>
       </tbody>
     </table>
+    <p>32 rows × 3 columns</p>
     </div>
 
 

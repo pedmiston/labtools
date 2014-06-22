@@ -205,6 +205,7 @@
         </tr>
       </tbody>
     </table>
+    <p>28 rows × 3 columns</p>
     </div>
 
 
@@ -427,6 +428,7 @@
         </tr>
       </tbody>
     </table>
+    <p>28 rows × 4 columns</p>
     </div>
 
 
@@ -650,6 +652,7 @@
         </tr>
       </tbody>
     </table>
+    <p>28 rows × 4 columns</p>
     </div>
 
 
