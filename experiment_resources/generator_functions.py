@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 """
-resources.generator_functions
+experiment_resources.generator_functions
 """
 import pandas as pd
 import numpy as np
-import itertools as itls
 
 def _generator(source, prng=None):
     """
@@ -14,7 +13,7 @@ def _generator(source, prng=None):
     :param prng: numpy.RandomState, optional.
     :return: Yields pandas.Series for rows of source
     """
-    ix_options = np.array(source.index)
+    ix_options = source.index.tolist()
     num_options = len(ix_options)
     
     if prng is not None:
@@ -63,6 +62,16 @@ def generate(frame, source, cols=None, seed=None):
     return frame
 
 def generate_by_group(frame, by, source_map, cols=None, seed=None):
+    """
+    Split a trial list on a key and generate rows from a source.
+    
+    :param frame: pandas.DataFrame.
+    :param by: str. Column in `frame` with unique values for keys in 
+               `source_map`
+    :param cols: str, optional. Columns in `source_map` to keep. By default, 
+                 includes all columns.
+    :param seed: int, optional. Necessary for randomization.
+    """
     num_seeds = len(frame[by].unique()) + 1
     if seed is not None:
         prng = np.random.RandomState(seed)
@@ -80,6 +89,15 @@ def generate_by_group(frame, by, source_map, cols=None, seed=None):
     return frame.groupby(by, group_keys=False).apply(_generate)
 
 def generate_matches(frame, source, on, cols=None, seed=None):
+    """
+    Creates a source map based on matching values and calls `generate_by_group`.
+    
+    :param frame: pandas.DataFrame.
+    :param source: pandas.DataFrame. Full options to split into the source_map.
+    :param on: str or list. Column names to match source and frame on.
+    :param cols: list. Column names in source to keep.
+    :param seed: int, optional.
+    """
     if not isinstance(on, list):
         on = [on, on]
     f_on, s_on = on
@@ -88,6 +106,15 @@ def generate_matches(frame, source, on, cols=None, seed=None):
     return generate_by_group(frame, f_on, source_map, cols, seed)
 
 def generate_but_not(frame, source, on, cols=None, seed=None):
+    """
+    Creates a source map based on mismatching values and calls `generate_by_group`.
+    
+    :param frame: pandas.DataFrame.
+    :param source: pandas.DataFrame. Full options to split into the source_map.
+    :param on: str or list. Columns names to match source and frame on.
+    :param cols: Column names to mismatch source and frame on.
+    :param seed: int, optional.
+    """
     if not isinstance(on, list):
         on = [on, on]
     f_on, s_on = on
