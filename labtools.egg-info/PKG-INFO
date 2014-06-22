@@ -1,8 +1,8 @@
 Metadata-Version: 1.1
-Name: experiment-resources
+Name: labtools
 Version: 0.0.1
 Summary: Resources for running behavioral experiments
-Home-page: https://github.com/pedmiston/experiment_resources
+Home-page: https://github.com/pedmiston/labtools
 Author: Pierce Edmiston
 Author-email: pierce.edmiston@gmail.com
 License: GNU GPL
