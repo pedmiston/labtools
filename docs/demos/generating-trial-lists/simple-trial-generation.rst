@@ -1,20 +1,30 @@
 
-Making Trial Lists
-==================
+Demo: Simple trial generation
+=============================
 
+
+This demo walks through some basics of trial generation using labtools
+and pandas.
 
 .. code:: python
 
-    import pandas as pd
-    import numpy as np
-    
+    # this demo is located in the demos folder of the labtools project, available on GitHub
     import sys, os
     sys.path.insert(0, os.path.abspath('..'))
     
-    from resources.trials_functions import *
+    import pandas as pd
+    import numpy as np
+    
+    from labtools.trials_functions import *
 counterbalance
 --------------
 
+
+One of the basic functions of trial generation is to allow for full
+counterbalancing. The function ``counterbalance`` takes a ``dict`` of
+variables and produces a ``pandas.DataFrame`` output.
+
+.. autofunction:: labtools.trials_functions.counterbalance
 
 .. code:: python
 

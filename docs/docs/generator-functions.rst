@@ -5,3 +5,4 @@ Generator Functions
 
 .. automodule:: labtools.generator_functions
      :members:
+     :private-members:

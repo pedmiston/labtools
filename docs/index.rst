@@ -1,4 +1,4 @@
-Experiment Resources Documentation
+Lab Tools Documentation
 ==================================
 
 Below are links to docs and examples of some helper functions and classes I use for conducting behavioral research in python. All source code can be downloaded from github:
@@ -9,18 +9,17 @@ Demos
 =====
 
 .. toctree::
-    :maxdepth: 2
+    :maxdepth: 3
    
-    demo-trial-lists
+    demos
 
 Documentation
 =============
 
 .. toctree::
-      :maxdepth: 1
-      
-      trials-functions
-      generator-functions
+    :maxdepth: 3
+    
+    docs
 
 Indices and tables
 ==================

@@ -4,13 +4,14 @@ tests:
 	python -m labtools.tests.trials_functions_tests
 	python -m labtools.tests.generator_functions_tests
 demos:
-	runipy -o demos/trial-lists-notebook.ipynb
-	ipython nbconvert --to rst --output docs/trial-lists-notebook \
-	    demos/trial-lists-notebook.ipynb
+	runipy -o demos/simple-trial-generation.ipynb
+	ipython nbconvert --to rst --output demos/simple-trial-generation \
+	    demos/simple-trial-generation.ipynb
+	cp demos/simple-trial-generation.rst docs/demos/generating-trial-lists/simple-trial-generation.rst
 
-	runipy -o demos/generators-notebook.ipynb
-	ipython nbconvert --to rst --output ../docs/generators-notebook \
-	    demos/generators-notebook.ipynb
+	runipy -o demos/using-generators.ipynb
+	ipython nbconvert --to rst --output demos/using-generators \
+	    demos/using-generators.ipynb
 docs:
 	cd docs && $(MAKE) html
 
