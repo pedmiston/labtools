@@ -1,0 +1,277 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Trials Functions &mdash; Experiment Resources 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Experiment Resources 1.0 documentation" href="../index.html" />
+    <link rel="up" title="Documentation" href="../docs.html" />
+    <link rel="next" title="Generator Functions" href="generator-functions.html" />
+    <link rel="prev" title="Documentation" href="../docs.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="generator-functions.html" title="Generator Functions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../docs.html" title="Documentation"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Experiment Resources 1.0 documentation</a> &raquo;</li>
+          <li><a href="../docs.html" accesskey="U">Documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../docs.html"
+                        title="previous chapter">Documentation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="generator-functions.html"
+                        title="next chapter">Generator Functions</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/docs/trials-functions.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-labtools.trials_functions">
+<span id="trials-functions"></span><h1>Trials Functions<a class="headerlink" href="#module-labtools.trials_functions" title="Permalink to this headline">¶</a></h1>
+<p>experiment_resources.trials_functions</p>
+<dl class="function">
+<dt id="labtools.trials_functions.counterbalance">
+<tt class="descclassname">labtools.trials_functions.</tt><tt class="descname">counterbalance</tt><big>(</big><em>conditions</em>, <em>order=None</em><big>)</big><a class="reference internal" href="../_modules/labtools/trials_functions.html#counterbalance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#labtools.trials_functions.counterbalance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate all independent variable combinations in a DataFrame.</p>
+<p>Each row of the resulting DataFrame contains a unique combination of 
+conditions. Use primarily for full counterbalancing of within-subject 
+variables.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>conditions</strong> &#8211; dict. Variable names and possible values.</li>
+<li><strong>order</strong> &#8211; list, optional. Order of columns in output.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">pandas.DataFrame. Each row is a unique combination of variables, 
+assuming the possible values for each variable are unique.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="labtools.trials_functions.expand">
+<tt class="descclassname">labtools.trials_functions.</tt><tt class="descname">expand</tt><big>(</big><em>valid, name, values=[1.0, 0.0], ratio=0.5, sample=False, seed=None</em><big>)</big><a class="reference internal" href="../_modules/labtools/trials_functions.html#expand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#labtools.trials_functions.expand" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy rows as necessary to satisfy the valid:invalid ratio.</p>
+<p>Use when complete counterbalancing is not plausible. For example, when the 
+ratio of trials requiring response A to those requiring response B is not
+50:50.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>valid</strong> &#8211; pandas.DataFrame. Trials to be expanded.</li>
+<li><strong>name</strong> &#8211; str. Name of new column containing valid and invalid values</li>
+<li><strong>values</strong> &#8211; list of length 2. Values for valid and invalid trials, 
+respectively.</li>
+<li><strong>ratio</strong> &#8211; 0.0 &lt; float &lt; 1.0. Approximate percentage of valid trials in 
+the resulting frame.</li>
+<li><strong>sample</strong> &#8211; bool, default False. Should the invalid trials be sampled 
+from the valid trials? If True, len(returned) &lt; 2*len(valid).</li>
+<li><strong>seed</strong> &#8211; float, optional. If sample is True, seed for random sampling 
+of invalid trials.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">pandas.DataFrame. Valid and invalid trials are denoted in a new 
+column.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="labtools.trials_functions.extend">
+<tt class="descclassname">labtools.trials_functions.</tt><tt class="descname">extend</tt><big>(</big><em>frame</em>, <em>reps=None</em>, <em>max_length=None</em>, <em>rep_ix=None</em>, <em>row_ix=None</em><big>)</big><a class="reference internal" href="../_modules/labtools/trials_functions.html#extend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#labtools.trials_functions.extend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Duplicates the unique trials for a total length less than the provided max.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>frame</strong> &#8211; pandas.DataFrame. Trials to be extended.</li>
+<li><strong>reps</strong> &#8211; int, optional. Number of times to copy the frame.</li>
+<li><strong>max_length</strong> &#8211; int, optional. Alternately, specify a max number of 
+trials.</li>
+<li><strong>rep_ix</strong> &#8211; str, optional. Column name for the iteration of repetitions.</li>
+<li><strong>row_ix</strong> &#8211; str, optional. Column name for the row identification, which
+is the original index of frame.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">pandas.DataFrame of duplicated trials</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="labtools.trials_functions.add_block">
+<tt class="descclassname">labtools.trials_functions.</tt><tt class="descname">add_block</tt><big>(</big><em>frame</em>, <em>size</em>, <em>name='block'</em>, <em>start_at=0</em>, <em>id_col=None</em>, <em>seed=None</em><big>)</big><a class="reference internal" href="../_modules/labtools/trials_functions.html#add_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#labtools.trials_functions.add_block" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new column for block.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>frame</strong> &#8211; pandas.DataFrame. Trials to be parsed into blocks.</li>
+<li><strong>size</strong> &#8211; int. Size of blocks.</li>
+<li><strong>id_col</strong> &#8211; str, optional. Column to groupby before blocking.</li>
+<li><strong>seed</strong> &#8211; int, optional. Seed for randomized block assigning.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">pandas.DataFrame with new column for block.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="labtools.trials_functions.simple_shuffle">
+<tt class="descclassname">labtools.trials_functions.</tt><tt class="descname">simple_shuffle</tt><big>(</big><em>frame</em>, <em>block=None</em>, <em>times=10</em>, <em>seed=None</em><big>)</big><a class="reference internal" href="../_modules/labtools/trials_functions.html#simple_shuffle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#labtools.trials_functions.simple_shuffle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shuffles trials a few times.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>frame</strong> &#8211; pandas.DataFrame of trials to be shuffled.</li>
+<li><strong>block</strong> &#8211; str column name to groupby before shuffling.</li>
+<li><strong>times</strong> &#8211; int, number of times to shuffle.</li>
+<li><strong>seed</strong> &#8211; int, optional for repeatable randomization.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">pandas.DataFrame with rows in random order.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="labtools.trials_functions.smart_shuffle">
+<tt class="descclassname">labtools.trials_functions.</tt><tt class="descname">smart_shuffle</tt><big>(</big><em>frame</em>, <em>col</em>, <em>block=None</em>, <em>seed=None</em>, <em>verbose=True</em>, <em>lim=10000</em><big>)</big><a class="reference internal" href="../_modules/labtools/trials_functions.html#smart_shuffle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#labtools.trials_functions.smart_shuffle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shuffles trials such that equivalent trials never appear back to back.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>frame</strong> &#8211; pandas.DataFrame of trials to be shuffled.</li>
+<li><strong>col</strong> &#8211; str column of values to minimize repetitions.</li>
+<li><strong>block</strong> &#8211; str column to groupby before shuffling.</li>
+<li><strong>seed</strong> &#8211; int, optional for repeatable randomization.</li>
+<li><strong>verbose</strong> &#8211; bool. Should the status of randomization be printed?</li>
+<li><strong>lim</strong> &#8211; int maximum number of shuffles before giving up.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">pandas.DataFrame with rows in randomized order.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="generator-functions.html" title="Generator Functions"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../docs.html" title="Documentation"
+             >previous</a> |</li>
+        <li><a href="../index.html">Experiment Resources 1.0 documentation</a> &raquo;</li>
+          <li><a href="../docs.html" >Documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Pierce Edmiston.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
