@@ -110,7 +110,7 @@ def generate_by_group(frame, by, source_map, source_cols=None, seed=None):
     
     return frame.groupby(by, group_keys=False).apply(_generate_for_group)
 
-def create_source_map(source, on, comparison_func, source_keys):
+def create_source_map(source, on, source_keys, comparison_func):
     """
     Splits a source into groups using a comparison function.
     
