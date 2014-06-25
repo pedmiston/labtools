@@ -4,6 +4,9 @@
 # python files
 *.pyc
 
+# docs files
+docs/images/*
+
 # ipython notebook files
 demos/.ipynb_checkpoints/*
 demos/*_files/*
