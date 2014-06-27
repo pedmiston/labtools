@@ -1,7 +1,8 @@
 Trials Functions
 ================
 
-.. currentmodule:: labtools
+.. toctree::
+    :numbered:
 
 .. automodule:: labtools.trials_functions
      :members:
