@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 """
-experiment_resources.trials_functions
+labtools.trials_functions
 """
 import pandas as pd
-import numpy as np
 
+from numpy.random import RandomState
 from itertools import product
 
 def counterbalance(conditions, order=None):
@@ -53,7 +53,7 @@ def expand(valid, name, values=[1.,0.], ratio=0.5, sample=False, seed=None):
     :return: pandas.DataFrame. Valid and invalid trials are denoted in a new 
              column.
     """
-    prng = np.random.RandomState(seed)
+    prng = RandomState(seed)
     num_trials = len(valid)
     
     if not sample:
@@ -120,7 +120,7 @@ def add_block(frame, size, name='block', start_at=0,
                 prng.shuffle(blocks)
             i = (i+1)%len(blocks)
             
-    prng = np.random.RandomState(seed)
+    prng = RandomState(seed)
     blocks = range(len(frame)/size)
     assigner = _assigner(blocks, prng)
     
@@ -146,7 +146,7 @@ def simple_shuffle(frame, block=None, times=10, seed=None):
     :param seed: int, optional for repeatable randomization.
     :returns: pandas.DataFrame with rows in random order.
     """
-    prng = np.random.RandomState(seed)
+    prng = RandomState(seed)
     
     def _shuffle(chunk):
         for _ in range(times):
@@ -170,7 +170,7 @@ def smart_shuffle(frame, col, block=None, seed=None, verbose=True, lim=10000):
     :param lim: int maximum number of shuffles before giving up.
     :returns: pandas.DataFrame with rows in randomized order.
     """
-    prng = np.random.RandomState(seed)
+    prng = RandomState(seed)
         
     def _shuffle(chunk):
         orig_index = chunk.index

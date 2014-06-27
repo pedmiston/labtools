@@ -3,9 +3,9 @@
 labtools.generator_functions
 """
 import pandas as pd
-import numpy as np
 
-from operator import eq, ne
+from numpy import arange
+from numpy.random import RandomState
 
 def _circular_generator(source, prng=None):
     """
@@ -97,7 +97,7 @@ def generate_by_group(frame, by, source_map, source_cols=None, seed=None):
     num_seeds = len(frame[by].unique()) + 1
     if seed is not None:
         prng = np.random.RandomState(seed)
-        seeds = list(prng.choice(np.arange(1000), num_seeds))
+        seeds = list(prng.choice(arange(1000), num_seeds))
     else:
         seeds = [None]*num_seeds
         
