@@ -2,7 +2,6 @@
 Simple Trial Generation
 =======================
 
-
 This demo walks through some basics of trial generation using labtools
 and pandas.
 
@@ -16,16 +15,23 @@ and pandas.
     import numpy as np
     
     from labtools.trials_functions import *
+
+.. parsed-literal::
+
+    /Users/edmiston/Library/Enthought/Canopy_32bit/User/lib/python2.7/site-packages/pandas/io/excel.py:626: UserWarning: Installed openpyxl is not supported at this time. Use >=1.6.1 and <2.0.0.
+      .format(openpyxl_compat.start_ver, openpyxl_compat.stop_ver))
+
+
 counterbalance
 --------------
-
 
 One of the basic functions of trial generation is to allow for full
 counterbalancing. The function ``counterbalance`` takes a ``dict`` of
 variables and produces a ``pandas.DataFrame`` output.
 
-.. autofunction:: labtools.trials_functions.counterbalance
-
+                .. autofunction:: labtools.trials_functions.counterbalance
+    :noindex:
+                
 .. code:: python
 
     my_variables = {'version':['a','b','c'], 'response':[1,2], 'session':2}
@@ -84,7 +90,6 @@ variables and produces a ``pandas.DataFrame`` output.
         </tr>
       </tbody>
     </table>
-    <p>6 rows × 3 columns</p>
     </div>
 
 
@@ -92,9 +97,9 @@ variables and produces a ``pandas.DataFrame`` output.
 expand
 ------
 
-
-.. autofunction:: labtools.trials_functions.expand
-
+                .. autofunction:: labtools.trials_functions.expand
+    :noindex:
+                
 .. code:: python
 
     posner = pd.DataFrame({'target_dir':['left','right']})
@@ -157,7 +162,6 @@ expand
         </tr>
       </tbody>
     </table>
-    <p>8 rows × 2 columns</p>
     </div>
 
 
@@ -281,7 +285,6 @@ expand
         </tr>
       </tbody>
     </table>
-    <p>16 rows × 3 columns</p>
     </div>
 
 
@@ -289,9 +292,9 @@ expand
 extend
 ------
 
-
-.. autofunction::labtools.trials_functions.extend
-
+                .. autofunction::labtools.trials_functions.extend
+    :noindex:
+                
 .. code:: python
 
     extend(posner, reps = 2)
@@ -505,7 +508,6 @@ extend
         </tr>
       </tbody>
     </table>
-    <p>32 rows × 3 columns</p>
     </div>
 
 
@@ -526,17 +528,18 @@ extend
 add\_block
 ----------
 
-
-.. autofunction:: labtools.trials_functions.add_block
-
+                .. autofunction:: labtools.trials_functions.add_block
+    :noindex:
+                
 simple\_shuffle
 ---------------
 
-
-.. autofunction:: labtools.trials_functions.simple_shuffle
-
+                .. autofunction:: labtools.trials_functions.simple_shuffle
+    :noindex:
+                
 smart\_shuffle
 --------------
 
-
-.. autofunction:: labtools.trials_functions.smart_shuffle
+                .. autofunction:: labtools.trials_functions.smart_shuffle
+    :noindex:
+                

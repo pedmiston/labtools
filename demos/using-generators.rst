@@ -2,7 +2,6 @@
 Using Generators
 ================
 
-
 This demo exhibits some of the advantages to using generators for more
 complicated trial generation.
 
@@ -17,6 +16,13 @@ complicated trial generation.
     
     from labtools.trials_functions import *
     from labtools.generator_functions import *
+
+.. parsed-literal::
+
+    /Users/edmiston/Library/Enthought/Canopy_32bit/User/lib/python2.7/site-packages/pandas/io/excel.py:626: UserWarning: Installed openpyxl is not supported at this time. Use >=1.6.1 and <2.0.0.
+      .format(openpyxl_compat.start_ver, openpyxl_compat.stop_ver))
+
+
 .. code:: python
 
     items = ['red','orange','yellow','green','blue','indigo','violet']
@@ -213,7 +219,6 @@ complicated trial generation.
         </tr>
       </tbody>
     </table>
-    <p>28 rows × 3 columns</p>
     </div>
 
 
@@ -221,25 +226,25 @@ complicated trial generation.
 *circular*\ generator
 ---------------------
 
-
 The basic workhorse of the generator functions is a generator that
 yields rows from a ``pandas.DataFrame`` circularly, i.e., once you get
 to the bottom, you go back to the top of the list. However, it doesn't
 do much on it's own, so it's a private function in the ``labtools``
 package.
 
-.. autofunction:: labtools.generator_functions._circular_generator
-
+                .. autofunction:: labtools.generator_functions._circular_generator
+    :noindex:
+                
 generate
 --------
-
 
 ``generate`` is the lowest level of trial generation. You have a trial
 list, and a source. ``generate`` takes from the source and adds to the
 trial list.
 
-.. autofunction:: labtools.generator_functions.generate
-
+                .. autofunction:: labtools.generator_functions.generate
+    :noindex:
+                
 .. code:: python
 
     generate(stroop, items, source_cols = {'item':'color'}, seed = 123)
@@ -458,14 +463,12 @@ trial list.
         </tr>
       </tbody>
     </table>
-    <p>28 rows × 4 columns</p>
     </div>
 
 
 
 generate\_but\_not
 ------------------
-
 
 However, often you won't just want to randomly stick together your trial
 list with some source, as in the case of a Stroop experiment. We want to
@@ -474,8 +477,9 @@ match. Building on ``generate`` is the function ``generate_but_not``
 which breaks the trial list into chunks before using
 ``_circular_generator``\ s.
 
-.. autofunction:: labtools.generator_functions.generate_but_not
-
+                .. autofunction:: labtools.generator_functions.generate_but_not
+    :noindex:
+                
 .. code:: python
 
     generate_but_not(stroop, items, on = ['letters','item'],
@@ -695,7 +699,6 @@ which breaks the trial list into chunks before using
         </tr>
       </tbody>
     </table>
-    <p>28 rows × 4 columns</p>
     </div>
 
 
@@ -703,12 +706,12 @@ which breaks the trial list into chunks before using
 generate\_matches
 -----------------
 
-
 Although trivially easy in the case of a Stroop task, we can also do the
 reverse using ``generate_matches``.
 
-.. autofunction:: labtools.generator_functions.generate_matches
-
+                .. autofunction:: labtools.generator_functions.generate_matches
+    :noindex:
+                
 .. code:: python
 
     generate_matches(stroop, items, on = ['letters','item'],
@@ -928,7 +931,6 @@ reverse using ``generate_matches``.
         </tr>
       </tbody>
     </table>
-    <p>28 rows × 4 columns</p>
     </div>
 
 
@@ -942,11 +944,12 @@ workhorse functions ``generate_by_group`` and ``create_source_map``.
 generate\_by\_group
 -------------------
 
-
-.. autofunction:: labtools.generator_functions.generate_by_group
-
+                .. autofunction:: labtools.generator_functions.generate_by_group
+    :noindex:
+                
 create\_source\_map
 -------------------
 
-
-.. autofunction:: labtools.generator_functions.create_source_map
+                .. autofunction:: labtools.generator_functions.create_source_map
+    :noindex:
+                
