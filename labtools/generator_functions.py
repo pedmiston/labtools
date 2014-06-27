@@ -50,7 +50,7 @@ def generate(frame, source, source_cols=None, seed=None):
     prng = None
     
     if seed is not None:
-        prng = np.random.RandomState(seed)
+        prng = RandomState(seed)
     
     if source_cols is None:
         source_cols = source.columns
@@ -96,7 +96,7 @@ def generate_by_group(frame, by, source_map, source_cols=None, seed=None):
     # create unique seeds for each part
     num_seeds = len(frame[by].unique()) + 1
     if seed is not None:
-        prng = np.random.RandomState(seed)
+        prng = RandomState(seed)
         seeds = list(prng.choice(arange(1000), num_seeds))
     else:
         seeds = [None]*num_seeds
