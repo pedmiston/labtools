@@ -15,10 +15,13 @@ def counterbalance(conditions, order=None):
     conditions. Use primarily for full counterbalancing of within-subject 
     variables.
     
-    :param conditions: dict. Variable names and possible values.
-    :param order: list, optional. Order of columns in output.
-    :return: pandas.DataFrame. Each row is a unique combination of variables, 
-             assuming the possible values for each variable are unique.
+    :param dict conditions: Variable names and possible values. Values can be
+        of length 1.
+    :param order: Optional order of columns in output.
+    :type order: list or None
+    :return: Each row is a unique combination of input variables, assuming the 
+        possible values for each variable are unique.
+    :rtype: pandas.DataFrame
     """
     for k,v in conditions.items():
         if not hasattr(v, '__iter__'):
@@ -32,7 +35,7 @@ def counterbalance(conditions, order=None):
     
     return frame[order]
     
-def expand(valid, name, values=[1.,0.], ratio=0.5, sample=False, seed=None):
+def expand(valid, name, values=[1,0], ratio=0.5, sample=False, seed=None):
     """
     Copy rows as necessary to satisfy the valid:invalid ratio.
         
@@ -40,18 +43,18 @@ def expand(valid, name, values=[1.,0.], ratio=0.5, sample=False, seed=None):
     ratio of trials requiring response A to those requiring response B is not
     50:50.
     
-    :param valid: pandas.DataFrame. Trials to be expanded.
-    :param name: str. Name of new column containing valid and invalid values
-    :param values: list of length 2. Values for valid and invalid trials, 
-                   respectively.
-    :param ratio: 0.0 < float < 1.0. Approximate percentage of valid trials in 
-                  the resulting frame.
-    :param sample: bool, default False. Should the invalid trials be sampled 
-        from the valid trials? If True, len(returned) < 2*len(valid).
-    :param seed: float, optional. If sample is True, seed for random sampling 
-                 of invalid trials.
-    :return: pandas.DataFrame. Valid and invalid trials are denoted in a new 
-             column.
+    :param pandas.DataFrame valid: Trial list to be expanded.
+    :param str name: Name of new column containing valid and invalid values
+    :param list values: Values for valid and invalid trials, respectively.
+    :param float ratio: Desired percentage of valid trials in the resulting 
+        frame. Must be between 0 and 1. Defaults to 0.5.
+    :param bool sample: Should the invalid trials be sampled from the valid 
+        trials? If True, len(returned) < 2*len(valid). Defaults to False.
+    :param seed: Seed random number generator.
+    :type seed: int or None
+    :return: New trial list with valid and invalid trials are denoted in a 
+        new column.
+    :rtype: pandas.DataFrame
     """
     prng = RandomState(seed)
     num_trials = len(valid)
@@ -74,14 +77,21 @@ def extend(frame, reps=None, max_length=None, rep_ix=None, row_ix=None):
     """
     Duplicates the unique trials for a total length less than the provided max.
     
-    :param frame: pandas.DataFrame. Trials to be extended.
-    :param reps: int, optional. Number of times to copy the frame.
-    :param max_length: int, optional. Alternately, specify a max number of 
-                       trials.
-    :param rep_ix: str, optional. Column name for the iteration of repetitions.
-    :param row_ix: str, optional. Column name for the row identification, which
+    Either `reps` or `max_length` must be specified. If both are provided, reps
+    takes priority.
+    
+    :param pandas.DataFrame frame: Trials to be extended.
+    :param reps: Number of times to copy the frame.
+    :type reps: int or None
+    :param max_length: Specify a max number of trials.
+    :type max_length: int or None
+    :param rep_ix: Column name for the iteration of repetitions.
+    :type rep_ix: str or None
+    :param row_ix: Column name for the row identification, which
                    is the original index of frame.
-    :returns: pandas.DataFrame of duplicated trials
+    :type row_ix: str or None
+    :returns: Duplicated trials
+    :rtype: pandas.DataFrame
     """
     if not hasattr(reps, '__iter__'):
         reps = reps or max_length/len(frame)
@@ -100,16 +110,20 @@ def extend(frame, reps=None, max_length=None, rep_ix=None, row_ix=None):
     repeated = pd.concat([frame]*len(reps), keys=reps, names=col_names).reset_index()
     return repeated.drop(to_drop, axis=1)
 
-def add_block(frame, size, name='block', start_at=0, 
-              id_col=None, seed=None):
+def add_block(frame, size, name='block', start_at=0, id_col=None, seed=None):
     """
     Creates a new column for block.
     
-    :param frame: pandas.DataFrame. Trials to be parsed into blocks.
-    :param size: int. Size of blocks.
-    :param id_col: str, optional. Column to groupby before blocking.
-    :param seed: int, optional. Seed for randomized block assigning.
-    :returns: pandas.DataFrame with new column for block.
+    :param pandas.DataFrame frame: Trials to be assigned blocks.
+    :param int size: Length of each block.
+    :param id_col: Column to group by before blocking. Assures that blocks 
+        consist of approximately the same number of trials for each unique
+        value in id_col
+    :type id_col: str or None
+    :param seed: Seed random number generator.
+    :type seed: int or None
+    :returns: Trial list with new column for block.
+    :rtype: pandas.DataFrame
     """
     def _assigner(blocks, prng):
         prng.shuffle(blocks)
@@ -140,11 +154,14 @@ def simple_shuffle(frame, block=None, times=10, seed=None):
     """
     Shuffles trials a few times.
     
-    :param frame: pandas.DataFrame of trials to be shuffled.
-    :param block: str column name to groupby before shuffling.
-    :param times: int, number of times to shuffle.
-    :param seed: int, optional for repeatable randomization.
-    :returns: pandas.DataFrame with rows in random order.
+    :param pandas.DataFrame frame: Trials to be shuffled.
+    :param block: Optional column to groupby before shuffling.
+    :type block: str or None.
+    :param int times: Number of times to shuffle. Defaults to 10.
+    :param seed: Seed random number generator.
+    :type seed: int or None
+    :returns: Trial list with rows in random order.
+    :rtype: pandas.DataFrame
     """
     prng = RandomState(seed)
     
@@ -158,17 +175,22 @@ def simple_shuffle(frame, block=None, times=10, seed=None):
     else:
         return frame.groupby(block).apply(_shuffle)
 
-def smart_shuffle(frame, col, block=None, seed=None, verbose=True, lim=10000):
+def smart_shuffle(frame, col, block=None, seed=None, verbose=False, lim=10000):
     """
     Shuffles trials such that equivalent trials never appear back to back.
     
-    :param frame: pandas.DataFrame of trials to be shuffled.
-    :param col: str column of values to minimize repetitions.
-    :param block: str column to groupby before shuffling.
-    :param seed: int, optional for repeatable randomization.
-    :param verbose: bool. Should the status of randomization be printed?
-    :param lim: int maximum number of shuffles before giving up.
-    :returns: pandas.DataFrame with rows in randomized order.
+    :param pandas.DataFrame frame: Trials to be shuffled.
+    :param str col: Column of values to minimize repetitions.
+    :param block: Column to groupby before shuffling.
+    :type block: str or None
+    :param seed: Seed random number generator.
+    :type seed: int or None
+    :param bool verbose: Should the status of randomization be printed? Defaults
+        to False.
+    :param int lim: Maximum number of shuffles before giving up. Defaults to
+        10000.
+    :returns: Trial list with rows in randomized order.
+    :rtype: pandas.DataFrame
     """
     prng = RandomState(seed)
         
