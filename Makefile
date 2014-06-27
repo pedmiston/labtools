@@ -1,27 +1,23 @@
 .PHONY: tests* demos* docs*
 
-tests-trials:
+tests: 
+	python -m labtools.tests.generator_functions_tests
 	python -m labtools.tests.trials_functions_tests
 
-tests-generators:
-	python -m labtools.tests.generator_functions_tests
+demos-run:
+	runipy -o demos/simple-trial-generation.ipynb
+	runipy -o demos/using-generators.ipynb
 
-tests: tests-trials tests-generators
+demos-convert:
+	ipython nbconvert --to rst demos/simple-trial-generation.ipynb
+	ipython nbconvert --to rst demos/using-generators.ipynb
 
-demos-simple-generation:
-	cd demos && \
-	runipy -o simple-trial-generation.ipynb && \
-	ipython nbconvert --to rst simple-trial-generation.ipynb && \
-	cp simple-trial-generation.rst ../docs/demos/generating-trial-lists/simple-trial-generation.rst
+demos-add:
+	cp demos/simple-trial-generation.rst ../docs/demos/generating-trial-lists/simple-trial-generation.rst
+	cp demos/using-generators.rst ../docs/demos/generating-trial-lists/using-generators.rst
 
-demos-using-generators:
-	cd demos && \
-	runipy -o using-generators.ipynb && \
-	ipython nbconvert --to rst using-generators.ipynb && \
-	cp using-generators.rst ../docs/demos/generating-trial-lists/using-generators.rst
+demos: demos-run demos-convert demos-add
 
-demos: demos-simple-generation demos-using-generators
-	
 docs-build:
 	cd docs && $(MAKE) html
 
